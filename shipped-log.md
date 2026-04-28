@@ -26,10 +26,10 @@ Append-only. One row per PR. Update status column when state changes.
 - PRs merged: **1 (mastra #15692, 2026-04-27)**
 - PRs closed-rejected: 2 (both open-webui, silent-closed by maintainer 2026-04-24)
 - Bounties claimed: 0
-- Dry scan rounds (0 candidates shipped): 4 (2026-04-24, 2026-04-25 早, 2026-04-25 晚, 2026-04-27)
+- Dry scan rounds (0 candidates shipped): 5 (2026-04-24, 2026-04-25 早, 2026-04-25 晚, 2026-04-27 早, 2026-04-27 晚)
 - Days from first-PR-opened to first-merge: 4 (2026-04-23 → 2026-04-27)
 
-**Skill upgrade trigger fired (2026-04-27): "1 merged PR" → consider scaffolding local repo `/home/myclaw/algora-scout/` per SKILL.md. Pending user GO.**
+**Skill upgrade complete (2026-04-27): repo scaffolded at `/home/myclaw/algora-scout/` (commit 22a0d28 V0.1.0). Skill shim at `~/.claude/skills/algora-scout/SKILL.md` retained as trigger entry only.**
 
 Update these counters after each status change.
 
@@ -68,13 +68,17 @@ Keep brief. Each row documents *why* we walked away so future scouts don't re-in
 | 2026-04-25晚 | trigger.dev zod #2654 $25 | Vouch Request gate (org-wide,新 contributor PR 自动 close)。 |
 | 2026-04-25晚 | archestra-ai #3851 OpenAI proxy $900 | R4: 仍是 "Reserved for SE interview" poison org。 |
 | 2026-04-25晚 | zio/* 全部 + getkyo/kyo #390 | R1: Scala 不在 allowlist;kyo gRPC = Rust DSL feature request scope >>50 行 (SKILL.md 明确避雷)。 |
+| 2026-04-27晚 | mastra #15229 AgentConfig.tools typing | R2 + R3: PR #15769 OPEN 同 fix ("reject plain functions as individual tool entries");`@Magicray1217` 评论 "I'd like to work on this" 软抢占,与 #15692 的 ambient risk 同人。 |
+| 2026-04-27晚 | mastra #15729 cross-provider tool_use IDs leak | R2: PR #15745 已 CLOSED 但 `app/devin-ai-integration` 已在评论贴 root-cause + Reproduction Steps,会接管 next-fix; 5+ 历史 PR 同 provider-executed-tool 域 high churn。 |
+| 2026-04-27晚 | mastra #15823/#15734/#15481/#15799/#15509 batch | R6 (effort:high label) / R12 (status:wontfix) / R14 (partial fix already landed) 混合;mastra unassigned bug pool 这轮 7 个全 fail。 |
+| 2026-04-27晚 | twentyhq 非 IMAP/CalDAV/Gmail 域 pivot | `@neo773` 跨 repo assigned 42 issue (远超 IMAP 域,是 twentyhq 通用 incumbent);`good first issue` 标签 0 unassigned;外部 author 比例 4/20 边缘。整 repo 不止 IMAP 域被锁。 |
 
 ## Org-level takeaways (2026-04-24)
 
 更新 `~/.claude/skills/algora-scout/SKILL.md` "Known bounty-paying orgs" / "Known poison" 列表时参考以下。
 
 1. **open-webui → 降级到 poison**. 2026-04-24 同一天内 `tjbck` (founder/top maintainer) silent-close 我的 #24045 + #24046, 无评论无理由, bot review 干净也砍. 模式非 CLA / stale / policy, 是 maintainer 不欢迎外部贡献. 证据链: shipped-log 行 19-20 + close actor query `gh api repos/open-webui/open-webui/issues/<N>/timeline`.
-2. **mastra → `kagura-agent` 抢占态**. Mastra 团队部署了 autonomous fix agent (`kagura-agent`), 近 4 天开 7 个 fix PR **全 CLOSED 0 MERGED**. 它会系统化扫新 issue 并 claim. 冷账号同 org 第 2 个人工 PR 除非 scope 完全不同, 否则撞 bot 时间窗 + maintainer 对 bot fix 的默认怀疑态. 守住 #15692 再考虑下一个.
+2. **mastra → 双 autonomous-agent 抢占态 (2026-04-27 更新)**. 原 `kagura-agent` (4 天 7 PR 全 CLOSED) 仍在,但 `app/devin-ai-integration` 才是真威胁:24h 内开 15 个 PR,混 fix/feat/refactor,**有 MERGE** (#15794, #15793 今日同时间窗合入). devin 模式: 在 issue 评论里贴 "Reproduction Steps + 代码分析",抢占 fix 路径 (见 #15729 抢占样本). 冷账号同 org 第 2 个 PR 必须避开 devin 已评论/已 PR 触及的 module + 文件;且因 mastra 接受 AI-agent fix,纯靠 "我是人类不是 bot" 没差异化优势,要靠 issue 选择 + 修改路径选择 + commit message 自然度。守住 #15692 再考虑下一个;下次扫前 `gh pr list --repo mastra-ai/mastra --author app/devin-ai-integration --state all --limit 20` 看 devin 这两天扫到哪。
 3. **trigger.dev → Vouch Request gate**. 新 contributor PR 自动被 close, 要开 issue `Vouch Request: <name>` 等 maintainer 认证. 读 repo CONTRIBUTING.md 才知. 5 个 fix PR 踩同一坑 (#3292 系列). 介入前先 `gh issue list --repo triggerdotdev/trigger.dev --search "Vouch Request"` 摸清流程.
 4. **"Known bounty-paying orgs" 列表 stale**. SKILL.md 列 formbricks + resend 为 TS bounty org, 但 `algora.io/formbricks` 和 `algora.io/resend` 均 **0 total awarded / 0 completed**. 扫 org 前必先 WebFetch `algora.io/<org>` 确认 paid count > 0, 否则即使 PR 合并也拿不到钱.
 5. **Pre-flight checklist (下轮扫描先跑)**:
