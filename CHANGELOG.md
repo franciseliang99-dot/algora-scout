@@ -1,5 +1,30 @@
 # CHANGELOG
 
+## V0.1.2 — 2026-04-27 — email-channel scout + #15637 coordination comment + langfuse poison
+
+**Trigger**: User flagged that scout missed an alternate channel (`gh api notifications` = GitHub email-equivalent). 26 unread notifications surfaced 3 actionable items the algora.io + GitHub-issue scout missed:
+
+1. **Critical**: Francis's 2026-04-23 in-thread commitment on #15692 (`I'll track it and file the follow-up [formatBlock PR] once this merges`) had not been scheduled per WORKFLOW "Public in-PR commitments must be scheduled, not memory-d" rule. PR merged 2026-04-27 21:56 UTC, commitment unfulfilled at scout time.
+
+2. **Regression risk on the merge**: PR #15637 (`feat(core): add consumeStream and formatOutboundText hooks to channels`, grundmanise, +775/-241 across 8 files, OPEN since 2026-04-22) refactors the exact `AgentChannels.consumeAgentStream` method Francis just patched. #15637's last main-merge was 2026-04-27 14:56 UTC — 7 hours BEFORE #15692 landed. Diff grep for "tripwire" in #15637 = 0 hits. Risk: maintainer merges #15637 without rebase awareness, silently regressing #15692's tripwire surfacing.
+
+3. **Langfuse confirmed fake-paid org**: `algora.io/langfuse` returns $0 awarded / 0 completed despite Francis being subscribed to 8 langfuse issues (pre-existing investigation context). Adds to the V0.1.1 fake-paid pattern (formbricks/resend/novuhq/Unstructured already documented).
+
+**Action taken** (this version):
+- Posted coordination comment on #15637 ([issuecomment-4332190019](https://github.com/mastra-ai/mastra/pull/15637#issuecomment-4332190019)): rebase heads-up for tripwire branch + formatBlock placement question (`ConsumeStreamHelpers` member vs top-level `ChannelConfig`). User-approved at Step 5 hard gate. Replaces the originally-promised "file follow-up PR" with "coordinate first, then file or defer" — better path because #15637 changes the API shape that formatBlock would attach to.
+- Updated `shipped-log.md` #15692 row Notes with follow-up commitment status + comment URL.
+
+**Diff vs V0.1.1**:
+- `shipped-log.md`: #15692 Notes column extended with formatBlock-commitment + #15637 coordination state.
+- `CHANGELOG.md`: this entry.
+
+**Why** the email-channel finding is load-bearing: WORKFLOW Step 1 only enumerates Algora pages + GitHub issues + per-repo bounty pages as data sources. After 1+ merge, post-merge state (CI fails, mentions, refactors that touch your fix) becomes a HIGHER-value scout signal than cold candidate hunting — but only `gh api notifications` surfaces it. This data source belongs in WORKFLOW Step 1 as a 4th query when `PRs merged: >= 1`. (Defer that WORKFLOW edit until pattern verified across 2nd+ merge — premature codification at n=1.)
+
+**Open follow-up state** (do NOT lose):
+- Awaiting grundmanise response on #15637 comment. Per WORKFLOW "Public in-PR commitments must be scheduled" — this should be checked weekly via `/schedule` until either (a) #15637 merges and formatBlock follow-up PR is filed, (b) grundmanise opts to bundle formatBlock into #15637, or (c) #15637 is closed/abandoned.
+
+---
+
 ## V0.1.1 — 2026-04-27 — 5th dry scan + devin-ai-integration squat takeaway
 
 **Trigger**: 2026-04-27 evening scout pass found 0 viable Tier-1 candidates (5th consecutive dry round). Aggregate `algora.io/bounties/{typescript,python,javascript}` returns only archestra (poison) + zio/kyo (Scala out of allowlist) + twentyhq IMAP (R16 neo773-locked). Per-org pages: mastra-ai/Zulip 404, CapSoftware drained, twentyhq 1 bounty.
