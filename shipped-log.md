@@ -27,7 +27,7 @@ Append-only. One row per PR. Update status column when state changes.
 - PRs merged: **1 (mastra #15692, 2026-04-27)**
 - PRs closed-rejected: 2 (both open-webui, silent-closed by maintainer 2026-04-24)
 - Bounties claimed: 0
-- Dry scan rounds (0 candidates shipped): 5 (2026-04-24, 2026-04-25 早, 2026-04-25 晚, 2026-04-27 早, 2026-04-27 晚) — 2026-04-28 was NOT a dry round; coordination-driven side-PR shipped (grundmanise/mastra#1)
+- Dry scan rounds (0 candidates shipped): 6 (2026-04-24, 2026-04-25 早, 2026-04-25 晚, 2026-04-27 早, 2026-04-27 晚, 2026-04-28 晚) — 2026-04-28 早 NOT a dry round (coordination-driven side-PR grundmanise/mastra#1 shipped); 晚 再扫 TS/Python/JS 三池前 50 全 R3+R2+R8 砍空
 - Days from first-PR-opened to first-merge: 4 (2026-04-23 → 2026-04-27)
 
 **Skill upgrade complete (2026-04-27): repo scaffolded at `/home/myclaw/algora-scout/` (commit 22a0d28 V0.1.0). Skill shim at `~/.claude/skills/algora-scout/SKILL.md` retained as trigger entry only.**
@@ -73,6 +73,10 @@ Keep brief. Each row documents *why* we walked away so future scouts don't re-in
 | 2026-04-27晚 | mastra #15729 cross-provider tool_use IDs leak | R2: PR #15745 已 CLOSED 但 `app/devin-ai-integration` 已在评论贴 root-cause + Reproduction Steps,会接管 next-fix; 5+ 历史 PR 同 provider-executed-tool 域 high churn。 |
 | 2026-04-27晚 | mastra #15823/#15734/#15481/#15799/#15509 batch | R6 (effort:high label) / R12 (status:wontfix) / R14 (partial fix already landed) 混合;mastra unassigned bug pool 这轮 7 个全 fail。 |
 | 2026-04-27晚 | twentyhq 非 IMAP/CalDAV/Gmail 域 pivot | `@neo773` 跨 repo assigned 42 issue (远超 IMAP 域,是 twentyhq 通用 incumbent);`good first issue` 标签 0 unassigned;外部 author 比例 4/20 边缘。整 repo 不止 IMAP 域被锁。 |
+| 2026-04-28晚 | twentyhq/twenty #20117 email change verify | R5: assignee=`FelixMalfait` (founder 自己) + sonarly blame 也指向 FelixMalfait commit `c5564d9b`,founder 自留 fix 必绕外部 PR。无 bounty 标签。 |
+| 2026-04-28晚 | outerbase/starbasedb #59 大 DB dumps $250 | R3+R2: `xyaz1313`/`suletetes`/`Myc911` 三人 /attempt;PR #129 已 OPEN 完整 streaming 解决方案。43 comments 拥挤。 |
+| 2026-04-28晚 | outerbase/starbasedb #72 external→internal replicate $250 | R3+R2+R9: `suletetes`/`Myc911`/`vikrantwiz02` 三人 /attempt;PR #138 已 OPEN 完整 adapter pattern;feature request scope (R9 partial)。31 comments。 |
+| 2026-04-28晚 | outerbase/starbasedb 整 repo | **R8 致命**: 最后一次任何 PR merge 是 founder Brayden 2025-03-13,距今 13.5 个月;整 repo 14 个月零 merge。冷账号开了 PR 也永远 stale。Algora bounty issues 全 /attempt 抢占但 PR 无人 review = bounty 永远不发。整 repo poison。 |
 
 ## Org-level takeaways (2026-04-24)
 

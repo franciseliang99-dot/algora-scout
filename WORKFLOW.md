@@ -160,6 +160,7 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - **triggerdotdev/trigger.dev** — Vouch Request gate. 新 contributor PR 自动被 close,需先开 `Vouch Request: <name>` issue 等 maintainer 认证. 5+ fix PR 踩同坑 (#3292 系列). 介入前 `gh issue list --search "Vouch Request"` 摸流程,或直接跳.
 - **"假 paid org" 模式** — algora 页存在但 `$0 awarded / 0 completed` = 不是真 paid org. 已验:`novuhq`, `formbricks`, `resend`, `Unstructured-IO`. 通用规则:扫前 WebFetch `algora.io/<slug>` 确认 awarded > $0,否则跳.
 - **"无 algora 页"** — 部分名义 paid org 实际未在 algora.io 自助 host 任何 bounty. 已验 404:`better-auth`, `payloadcms`, `Chainlit` (各种 slug 大小写变种均 404,Algora 全局索引也无记录). 不要再为这几个 org 拉 algora 页.
+- **outerbase/starbasedb** — R8 致命: 整 repo 13.5+ 个月零 PR merge (last merged 2025-03-13 by founder Brayden, screened 2026-04-28). bounty issues #59 / #72 各 3+ 人 /attempt + 完整 PR (#129/#138) OPEN 但 maintainer 全无 review。冷账号开了 PR 也 stale。整 repo 不投。
 
 ## Portfolio rules (cold-account specific)
 
