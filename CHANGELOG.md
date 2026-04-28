@@ -1,5 +1,33 @@
 # CHANGELOG
 
+## V0.1.3 — 2026-04-28 — first PR-into-PR (grundmanise/mastra#1 forward-ports tripwire into #15637)
+
+**Trigger**: grundmanise replied 2026-04-28 09:58Z on `mastra-ai/mastra#15637` explicitly inviting Francis to push commits to his branch (*"contribute to my PR branch here `grundmanise:grundmanise/channel-stream-hook` ... merge everything through this single PR"*). Resolves the V0.1.2 open-follow-up state — replaces the original "wait, then either bundle formatBlock or file follow-up" plan with "ship the regression-prevention port first, defer formatBlock as separate follow-up after #15637 merges".
+
+**Action taken**:
+- Verified grundmanise's `default-consume-stream.ts` (extracted from `consumeAgentStream`) is missing the `tripwire` branch added by #15692 — confirmed regression risk: once #15637 rebases past `00f8f8c14`, processor `strategy: "block"` notifications silently drop again.
+- Branched `fix/tripwire-default-consume-stream` off grundmanise's tip (`1fd0746`).
+- Forward-ported the 17-LOC tripwire branch + 3 tests + separate `.changeset/*.md` (patch). Tripwire branch byte-identical to #15692. Tests mirror grundmanise's existing `runConsumer` mock pattern.
+- Pre-push race check: grundmanise tip unchanged.
+- Opened **[grundmanise/mastra#1](https://github.com/grundmanise/mastra/pull/1)** (PR-into-PR; ready, not draft; commit `837d26f`).
+
+**Outcome state**: PR open, awaiting grundmanise review/merge. If merged → his commit becomes part of #15637 → upstream merge carries the tripwire surface preserved. If rejected/abandoned → fall back to filing a separate upstream PR after #15637 lands (or instead of, if #15637 dies).
+
+**Diff vs V0.1.2**:
+- `shipped-log.md`: new row for `grundmanise/mastra#1`; `#15692` Notes extended with the coordination resolution; PRs-opened counter 3 → 4 (split into "3 upstream + 1 PR-into-PR"); dry-scan rounds note clarifying 2026-04-28 is NOT a dry round.
+- `WORKFLOW.md`: hard rule 3 amended (PR target may be another contributor's branch on explicit public invitation); Step 6 gained "Variant: PR-into-PR" sub-block with mechanics (remote add, race check, push, gh pr create syntax).
+- `CHANGELOG.md`: this entry.
+
+**Why** the WORKFLOW rule-3 amendment is load-bearing: prior wording (*"only ever open PRs to the upstream's designated contribution branch"*) would prohibit the literal action just shipped. Without the amendment, future scouts following the rule strictly would refuse a co-author contribution invite — losing a high-leverage path that bypasses cold-account first-PR friction. Letter must catch up to practice. **Boundary preserved**: explicit *public* (in-PR-thread) invitation required (memory or DM doesn't count); still no auto-submit; still no AI attribution; race-check on contributor's tip is mandatory pre-push (encoded in Step 6 variant).
+
+**Caveat**: Did not run `pnpm typecheck`/`vitest` locally before push — monorepo `node_modules` absent; install would be ~5-15 min for one-off check on a 17-line copy-paste of #15692 logic that already passed CI. Disclosed in PR-side `shipped-log` Notes; will respond to whatever CI surfaces on grundmanise's PR.
+
+**Open follow-up state** (do NOT lose):
+- Awaiting grundmanise review/merge on grundmanise/mastra#1. If 7 days pass with no engagement, ping or pivot.
+- formatBlock hook PR is now properly deferred (was V0.1.2 open follow-up): file as separate upstream PR after #15637 merges. Track via `/schedule` when the merge happens.
+
+---
+
 ## V0.1.2 — 2026-04-27 — email-channel scout + #15637 coordination comment + langfuse poison
 
 **Trigger**: User flagged that scout missed an alternate channel (`gh api notifications` = GitHub email-equivalent). 26 unread notifications surfaced 3 actionable items the algora.io + GitHub-issue scout missed:

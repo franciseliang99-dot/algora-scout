@@ -95,6 +95,21 @@ gh pr create --repo <org>/<repo> --base <base-branch> --head <user>:<branch> --t
 
 Use a HEREDOC for the PR body to keep markdown intact.
 
+**Variant: PR-into-PR (co-author contribution to another contributor's open PR)**. Only when the other contributor has issued an *explicit public invitation* in the upstream PR thread (the words "contribute to my branch" / "push commits here" — DM or memory-only invitations don't qualify). Mechanics:
+
+```bash
+git remote add <contributor> https://github.com/<contributor>/<repo>.git   # only first time
+git fetch <contributor> <their-pr-branch>
+git checkout -b <your-branch> <contributor>/<their-pr-branch>
+# ... edit + commit ...
+git fetch <contributor> <their-pr-branch>   # last-second race check
+git rev-parse <contributor>/<their-pr-branch>   # abort + rebase if tip moved
+git push -u fork <your-branch>
+gh pr create --repo <contributor>/<repo> --base <their-pr-branch> --head <user>:<your-branch> --title "..." --body "..."
+```
+
+The PR opens against the contributor's fork (not upstream); when they merge it, their upstream PR auto-includes your work. Track in `shipped-log.md` with the contributor-fork URL in the Repo column and a Notes line referencing the upstream PR + their invitation comment.
+
 ### 7. Log
 
 Append a row to `shipped-log.md`. Update when state changes (CI, review, merge, close, bounty).
@@ -103,7 +118,7 @@ Append a row to `shipped-log.md`. Update when state changes (CI, review, merge, 
 
 1. **Never auto-submit PRs**. Human approval gate at step 5 is mandatory, regardless of how clean the diff looks.
 2. **Never batch PRs**. One candidate at a time. User holds the throttle.
-3. **Never push to a repo's main branch remote**. Only ever push to user's fork, only ever open PRs to the upstream's designated contribution branch.
+3. **Never push to a repo's main branch remote**. Only ever push to user's fork. PR target is one of: (a) upstream's designated contribution branch, or (b) another contributor's open-PR branch when they have *explicitly publicly invited* a co-author commit (PR-into-PR — see Step 6 variant).
 4. **Never invent a fix not grounded in the issue body + maintainer-visible code**. If the issue lacks a repro or suggested fix, drop it — maintainer review will drag, which is the worst outcome for a cold account.
 5. **Never include AI attribution in third-party PR commits or bodies**. User owns authorship, Claude is internal tooling.
 6. **Scope cap**: 50 lines changed, 3 files touched. Over that → drop or split. Cold accounts don't ship multi-file refactors.
