@@ -23,8 +23,8 @@
 **Caveat**: Did not run `pnpm typecheck`/`vitest` locally before push — monorepo `node_modules` absent; install would be ~5-15 min for one-off check on a 17-line copy-paste of #15692 logic that already passed CI. Disclosed in PR-side `shipped-log` Notes; will respond to whatever CI surfaces on grundmanise's PR.
 
 **Open follow-up state** (do NOT lose):
-- Awaiting grundmanise review/merge on grundmanise/mastra#1. If 7 days pass with no engagement, ping or pivot.
-- formatBlock hook PR is now properly deferred (was V0.1.2 open follow-up): file as separate upstream PR after #15637 merges. Track via `/schedule` when the merge happens.
+- Awaiting grundmanise review/merge on grundmanise/mastra#1. If 7 days pass with no engagement, ping or pivot. **Watchdog scheduled 2026-04-28T18:30Z**: routine `trig_01VmjHWi8uLW5Zxkc1VUPry2` (cron `0 17 * * 1` — every Monday 10:00 America/Vancouver / 17:00 UTC), [dashboard](https://claude.ai/code/routines/trig_01VmjHWi8uLW5Zxkc1VUPry2). Read-only status reporter; emits `🎉 MERGED` / `❌ CLOSED` / `⚠️ STALE` / `✅ healthy` banner. Disable manually via dashboard after PR reaches terminal state — cron does NOT auto-stop.
+- formatBlock hook PR is now properly deferred (was V0.1.2 open follow-up): file as separate upstream PR after #15637 merges. **Trigger scheduled 2026-04-28T18:30Z**: routine `trig_013bUbcqV4jaEyJzdHALTPTD` (cron `0 18 * * *` — daily 11:00 America/Vancouver / 18:00 UTC), [dashboard](https://claude.ai/code/routines/trig_013bUbcqV4jaEyJzdHALTPTD). Daily ALREADY_DONE poll: exits silently while #15637 still open; fires `🚨 formatBlock NOT FILED` banner once #15637 merges AND no `franciseliang99-dot` PR with "formatBlock" in title/body exists. Disable manually after follow-up PR opens.
 
 ---
 
