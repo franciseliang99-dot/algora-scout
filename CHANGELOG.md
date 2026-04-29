@@ -1,5 +1,54 @@
 # CHANGELOG
 
+## V0.1.9 — 2026-04-29 — Third upstream mastra PR shipped (#15934 fixes #15914 buildMessagesFromChunks semantic order)
+
+**Trigger**: User said "下一步该做什么" post-V0.1.8 portfolio unlock, then "按你的推荐" → A (mastra unassigned bug pool round 2, V0.1.4 model). 30min scout: 25 unassigned bug-labeled issues → 5 candidates after R-cuts (Memory module avoid + effort:high + waiting + already-aborted) → 3 deep-scan (#15914 / #15288 / #15920) → #15914 viable (R-checklist all-pass except R6/R7 with mitigation).
+
+**Why #15914 won**:
+- R2 ✓ 0 cross-ref PR for issue (verified via `gh pr list --search "15914 in:body"`)
+- R7 ✓ daneatmastra "smaller-model repro request" 化解 by reporter's model-agnostic chunk-array unit test (32 lines, pure assertion)
+- R14 ✓ reporter自问 "is this expected?" 不是否认 bug — bug is real internal mismatch (streaming order vs semantic expectation downstream)
+- R17 ✓ 0 closed-PR with "we will raise PR" / "needs discussion" lock
+- Module-clean ✓ `loop/workflows/agentic-execution/build-messages-from-chunks.ts` ≠ #15904 `processors/memory/message-history.ts` subtree (no #15904 cannibalization risk)
+- Devin 7-day squat ✓ devin touches `core/memory/*`, `processors/*`, `playground/*`, `pg/*` — does NOT touch buildMessagesFromChunks
+- TylerBarnes #15897 OPEN concurrent on same file — verified 0 functional overlap (他改 L338 backward-compat contentString, 我改 buildMessagesFromChunks 主体 placeholder pattern)
+
+**Action taken** (mastra side, 1 PR):
+- mastra-ai/mastra fork branch `fix/build-messages-semantic-order` off main `a2b4baa` (29 commits ahead of #15904 base `332eb8d`)
+- 7 source edits to `build-messages-from-chunks.ts` (option-(b) placeholder pattern: text/reasoning spans reserve slot at first-seen-delta or reasoning-start-if-redacted, fill at end-event)
+- 1 regression test in `build-messages-from-chunks.test.ts` (reporter's chunk-array assertion verbatim, before "Empty stream" section)
+- 1 changeset `.changeset/fix-build-messages-semantic-order.md` (`@mastra/core: patch`)
+- Single commit `c4fab88` (no Co-Authored-By: Claude per hard rule #5)
+- Pushed to fork → `gh pr create` → **PR #15934 OPEN, MERGEABLE, 9 CI checks (7 pending 0 failing), REVIEW_REQUIRED**
+
+**Action taken** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md`: PR portfolio table 加 1 row mirror V0.1.4 #15904 shape; first-merge-hunt stats counter `5 → 6 PRs opened`; dry scan rounds counter 注 "2026-04-29 夜 V0.1.9 NOT a dry round"
+- `CHANGELOG.md`: this entry
+
+**Hard rule #6 override** (mirror V0.1.4 #15904 +69 precedent):
+- 表面 +146/-37 inflated by Object.assign refactor pattern in reasoning-end + flush loops (placeholder mutate-vs-push 分支统一去重 redacted/non-redacted dual emit blocks)
+- 新增 logic 净 ~50 lines + 36-line regression test (reporter's repro 1:1)
+- 3 files (符合 hard rule #6 file-cap)
+
+**Step-0 subagent 审核** (3 rounds): first round (next-step recommendation) RECOMMENDED-NEXT = mastra V0.1.4-mode round 2; second round (scout method audit) PROCEED with module-overlap caveat + 30min stop conditions; third round (Plan agent on draft-and-ship) PROCEED with one trim, option-(b) placeholder+mutate winning on LOC + clarity. 全部采纳 + HTML grep 修正一处 (subagent 推荐 "ZIO 池没有 ≤$300 候选" — 实测 4 个 ≤$300 ramp issues exist, ZIO ramp path 真实可执行但 100h Scala learning 是 hard prerequisite)。
+
+**Diff vs V0.1.8**:
+- `shipped-log.md`: portfolio 加 1 row + counter update
+- `CHANGELOG.md`: this entry
+
+**Open follow-up state** (carried forward):
+- `mastra-ai/mastra#15904` awaiting review (5-day cadence, watchdog due 2026-05-04)
+- `mastra-ai/mastra#15934` awaiting review (NEW — same 5-day cadence baseline, watchdog due 2026-05-04)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog NOT scheduled
+- **Cannibalization risk** (V0.1.9 specific): mastra-ai org 现 2 open PR + 1 PR-into-PR (grundmanise#1) = 上限 2 (PR-into-PR 不计 mastra-ai org cap)。**第 3 个 mastra-ai PR 在 #15904 / #15934 任一 review/merge/close 之前不能开**。
+- **NEW V0.1.8 implication carried**: 下轮 scout 必须按新 allowlist 重扫 Scala/PHP/Ruby/Java; ZIO #519 $20k 三层叠是高 ROI 但 100-150h ramp-up 是 hard prerequisite。
+
+**Revert path**: `git revert <V0.1.9 sha>` 恢复 algora-scout 文件 (shipped-log.md row + CHANGELOG entry)。`mastra-ai/mastra#15934` 是外部 PR — revert 需 `gh pr close 15934 --comment "withdrawing"` (用户决定)。本地 commit `c4fab88` 在 fork branch 不影响。
+
+---
+
 ## V0.1.8 — 2026-04-29 — PHP+Scala+Java+Ruby allowlist+Tier 1 lift (user-explicit override mirrors V0.1.5 shape; 0-exp framing acknowledged)
 
 **Trigger**: User said "全部解锁portfolio" then "按你推荐的" mid-V0.1.7 dry-sweep aftermath, when offered 5 enumerated interpretations (I-1 literal drop all R1 / I-2 drop R1+hard rules REJECTED / I-3 PHP-only / I-4 Scala-only / **I-5 Algora-paid-org allowlist PHP+Scala+Java+Ruby keep hard rules** ← chosen). **Triggering reason**: pure strategy upgrade post-V0.1.7 dry sweep revealing TS/Python/Rust = 0 platform-wide active bounties; no specific candidate cited.
