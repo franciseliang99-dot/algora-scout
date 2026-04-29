@@ -132,6 +132,7 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - twentyhq/twenty (slug `twentyhq/home`; large-scope bounties; R16 IMAP/CalDAV/Gmail incumbent in poison list)
 - CapSoftware/Cap (slug `CapSoftware`; mostly Rust crates)
 - cal.com (old, crowded; many R5/R17 locks — see abort log)
+- maybe-finance (slug `maybe-finance`; **$18,000 awarded / 47 completed** as of 2026-04-29 — 2nd largest after cal.com; primarily Rails/Ruby with significant TS-adjacent issues; **R1 砍 Ruby 部分,只投 TS 子组件**; currently 0 active — watchdog candidate)
 
 **Python-heavy**:
 - Zulip/zulip
@@ -158,8 +159,8 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - **twentyhq/twenty IMAP / CalDAV / Gmail bounties** — `@neo773` is the domain incumbent (10+ assigned sibling issues, multiple merged `fix: IMAP ...` PRs). The flagship bounty issue is unassigned on purpose (Algora rewards the merged PR, not the claim) but the reward is already spoken for. Pattern generalizes: whenever a repo has a **long-open bounty in a named feature area**, run the R16 check before adopting.
 - **open-webui/open-webui** — top maintainer `tjbck` silent-closes external PRs without comment (验证 2026-04-24: #24045 + #24046 同日 silent-close, bot review 干净也砍). 不是 CLA / stale 制度,是 maintainer 不欢迎外部贡献. 不投.
 - **triggerdotdev/trigger.dev** — Vouch Request gate. 新 contributor PR 自动被 close,需先开 `Vouch Request: <name>` issue 等 maintainer 认证. 5+ fix PR 踩同坑 (#3292 系列). 介入前 `gh issue list --search "Vouch Request"` 摸流程,或直接跳.
-- **"假 paid org" 模式** — algora 页存在但 `$0 awarded / 0 completed` = 不是真 paid org. 已验:`novuhq`, `formbricks`, `resend`, `Unstructured-IO`. 通用规则:扫前 WebFetch `algora.io/<slug>` 确认 awarded > $0,否则跳.
-- **"无 algora 页"** — 部分名义 paid org 实际未在 algora.io 自助 host 任何 bounty. 已验 404:`better-auth`, `payloadcms`, `Chainlit` (各种 slug 大小写变种均 404,Algora 全局索引也无记录). 不要再为这几个 org 拉 algora 页.
+- **"假 paid org" 模式** — algora 页存在但 `$0 awarded / 0 completed` = 不是真 paid org. 已验:`novuhq`, `formbricks`, `resend`, `Unstructured-IO`, `tauri-apps` (2026-04-29 验,$0/0,推测过去通过非-algora 渠道发 bounty). 通用规则:扫前 WebFetch `algora.io/<slug>` 确认 awarded > $0,否则跳.
+- **"无 algora 页"** — 部分名义 paid org 实际未在 algora.io 自助 host 任何 bounty. 已验 404:`better-auth`, `payloadcms`, `Chainlit`, `sst`, `tldraw`, `dyrector-io`, `cal`/`calcom`/`cal-com` (多 slug 变种均 404), `mastra-ai` (404 — bounties only via per-repo issue labels), `zulip` (404). 不要再为这几个 org 拉 algora 页.
 - **outerbase/starbasedb** — R8 致命: 整 repo 13.5+ 个月零 PR merge (last merged 2025-03-13 by founder Brayden, screened 2026-04-28). bounty issues #59 / #72 各 3+ 人 /attempt + 完整 PR (#129/#138) OPEN 但 maintainer 全无 review。冷账号开了 PR 也 stale。整 repo 不投。
 
 ## Portfolio rules (cold-account specific)

@@ -1,5 +1,48 @@
 # CHANGELOG
 
+## V0.1.6 — 2026-04-29 — per-org page scan 发现 (gyroflow 4/4 abort, maybe-finance 入册, "假 paid org" + "无 algora 页" 列表扩展)
+
+**Trigger**: User selected option C ("复查 Algora per-org page") then D ("写 abort log + 扫 8 个新 orgs") after V0.1.5 push. Tier 1 解禁后第一次系统性 per-org page 扫描——之前 scout 只用 algora.io/bounties 全局列表 + 6 个语言子页,**漏掉 per-org 单页挂的 bounty**。
+
+**Per-org scan 发现**:
+- **gyroflow** algora 主页有 4 active bounty ($1,350 总)。全局列表只显示 0 个。Tier 1 升级后复查全部 abort:
+  - `#742 ($500)` Refactor lens profile handling: R2 (PR #1118 OPEN by CntrlX) + R3 (`/attempt #742` 2026-02-20) + R6/R9 (7-checkbox 大重构,2 年半老 issue 40 评论)
+  - `#45 ($500)` Optical only stabilization: R2 (PR #1143 OPEN by yasumorishima 2026-04-24) + R7/R13 (maintainer AdrianEddy 2025-06-30 说"not right now, we'll need #831"——blocked) + R12 (PR #1130 by kira-autonoma 2026-03-16 同 fix CLOSED)
+  - `#150 ($200) ` Support lensfun database: R2 (PR #1141 OPEN by yasumorishima 2026-04-23) + R3 (`/attempt #150` 6 天前 active) + R12 (PR #1106 by buildingvibes CLOSED)
+  - `#384 ($150)` 已 abort (Tier 升不解 R12)
+- **keephq #2112 SNMP $4,500 主奖 re-confirm**: 6 天前 abort log 写"5 个 open PR";现 **15 个 open PR + 43 /attempt + 最新 /attempt 2026-04-28**——PR pile 翻 3 倍,**结构性 R2 持续恶化**,bounty 永远不发。Algora 自助 attempt 平台 + 高额奖金 = 抢占失控池。
+
+**新 paid org 入册**:
+- **maybe-finance** (algora.io/maybe-finance, $18,000 awarded / 47 completed) — 排已知 paid 第 2 大,仅次于 cal.com。Top earner Huzef = neo773 (twentyhq incumbent 同人,跨 org 高产)。当前 0 active bounty,但活跃度高;watchdog candidate。语言:Rails/Ruby 主体 + 大量 TS-adjacent;R1 砍 Ruby 部分,只投 TS 子组件——issue-level 判断而非 org-level。
+
+**"假 paid" / "无 algora 页" 列表扩展**:
+- 假 paid (有页但 $0 awarded): + `tauri-apps`
+- 无 algora 页 (404): + `sst`, `tldraw`, `dyrector-io`, `cal`/`calcom`/`cal-com`, `mastra-ai`, `zulip`
+- subagent 推荐的 7 个新 orgs (triggerdotdev/keephq/sst/maybe-finance/tldraw/coollabsio/dyrector-io/tauri-apps),实测 0 个产生 actionable 候选;3 个根本无 algora 主页,subagent 训练数据 stale。新 takeaway #8 (shipped-log Org-level): "subagent 推荐 paid orgs 信息 stale" — WebFetch 是唯一 ground truth。
+
+**Action taken** (3 git-tracked files):
+- `shipped-log.md`: aborted-targets 加 4 行 (gyroflow #742 / #45 / #150 + keephq #2112 re-confirm); Org-level takeaways 加 #6/#7/#8 (per-org scan 是 step 1 子优先级 / maybe-finance 入册 / subagent 信息 stale)
+- `WORKFLOW.md`: Known bounty-paying orgs 加 maybe-finance; "假 paid org" 列表加 tauri-apps; "无 algora 页" 列表加 sst/tldraw/dyrector-io/cal*/mastra-ai/zulip
+- `CHANGELOG.md`: this entry
+
+**Outcome state**:
+- Algora 公开池 + 已知 paid org per-org page **全 dry / abort**。0 个 actionable 候选。
+- mastra PR #15904 仍等 review。grundmanise/mastra#1 仍等 grundmanise reaction。formatBlock follow-up trigger active。
+- 下次 scout (任何 trigger) 必须按 takeaway #6 先跑 per-org page 循环再看全局列表。
+
+**Diff vs V0.1.5**:
+- `shipped-log.md`: +4 abort rows + 3 takeaway sections
+- `WORKFLOW.md`: maybe-finance entry + 假 paid list + 无 algora 页 list
+- `CHANGELOG.md`: this entry
+
+**Open follow-up state** (carried forward):
+- mastra-ai/mastra#15904 awaiting review (~5 day natural cadence; if no engagement by 2026-05-04 schedule watchdog matching V0.1.3 grundmanise pattern)
+- grundmanise/mastra#1 watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- formatBlock follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog **NOT yet scheduled** — defer until user requests (无 active 时频繁查无意义,等 user 主动 monitor 或下轮 scout 触发)
+
+---
+
 ## V0.1.5 — 2026-04-29 — Rust Tier 2 → Tier 1 (user-explicit override at 0 merged Rust PR; gate bypass acknowledged)
 
 **Trigger**: User said "我要解除 rust 的限制" mid-session, then explicitly chose option "A" (升 Tier 1 全解除) when offered four interpretations (A: full lift / B: only ≤150-line cap / C: only "Still Avoid" list / D: only 2-3x time-budget note). No triggering Rust candidate cited; not driven by a specific bounty in the pipeline. Pure strategy decision.
