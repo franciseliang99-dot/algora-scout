@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## V0.1.4 — 2026-04-29 — second upstream mastra PR (#15904 fixes #15880 trim regression) + R17 sub-pattern (per-issue internal lock via "we will raise PR")
+
+**Trigger**: User-invoked scout 2026-04-29 早. Algora pools (TS / Python / JS) fully poison-blocked (archestra R4 / twentyhq IMAP R16 / zio R1 / kyo R1) — same poison set as 2026-04-28 晚, no incremental bounty additions. Pivoted to no-bounty bug-fix scouting in already-friendly orgs (post-#15692 mastra confidence). Two candidates surfaced: mastra #15089 (Vector SDK return types) and mastra #15880 (`filterMessagesForPersistence` trim regression). #15089 had a fully-formed external fix (`octo-patch` PR #15119) closed 22 days ago by `intojhanurag` with *"needs discussion, then we will raise PR"* — same shape as cal.com R17 internal lock. #15880 was clean: complete repro + suggested fix in issue body, regression source PR #15454 (CalebBarnes 2026-04-21) cited, no `/attempt` claims, devin-ai-integration not in `processors/memory/message-history.ts`.
+
+**Action taken**:
+- Verified `removeWorkingMemoryTags` in `working-memory-utils.ts` always returns a fresh string (indexOf-based reconstruction) — issue's suggested `cleaned !== text` snippet works because JS string `!==` is value-compare, not reference-compare.
+- Branched `fix/filter-messages-preserve-whitespace` off `main` (HEAD `332eb8d`).
+- Applied two-path fix to `MessageHistory.filterMessagesForPersistence` (string-content branch + `parts[]` text branch); inline comment documents *why* the value-compare guard exists, to discourage future "simplification" back into the regression.
+- Added 1 regression test in `message-history.test.ts` (~55 LOC, mirrors existing `processOutputResult` describe block) covering 4 text parts where 3 carry token-boundary leading whitespace and 1 contains a `<working_memory>` tag — proves both regression-fix AND original strip+trim path coexist correctly.
+- Added `.changeset/preserve-text-part-whitespace.md` (`@mastra/core`: patch).
+- Step-0 subagent (Plan) flagged five risks; #1 (string-content path symmetry) integrated, #2 (reference-vs-value compare) verified false-alarm via source read, #3-5 (test coverage / changeset framing / inline comment) integrated.
+- Pre-push race check: #15880 evidence count steady (2 comments, last 2026-04-28T20:58 — pre-PR), no new `/attempt`, no new fix PR matching keywords (`filterMessagesForPersistence`, `message-history`, `15880`).
+- Single commit `08289ed` (no `Co-Authored-By: Claude`).
+- Opened **[mastra-ai/mastra#15904](https://github.com/mastra-ai/mastra/pull/15904)** against `main` (3 files, +69/-2). PR-landed sanity check: OPEN / MERGEABLE / REVIEW_REQUIRED, CI in_progress (Memory/E2E/Combined-store + Socket Security + CodeRabbit pending; Vercel docs preview FAIL is fork-authorization issue, not code).
+
+**R17 sub-pattern documented (orthogonal to PR ship)**: mastra has *per-issue* internal locks (not the per-repo locks that cal.com uses). Triggered by recognizing #15089's PR #15119 close pattern. Updates:
+- `evaluation-checklist.md` R17 row: trigger surface widened to "issue body OR most recent closed external-fix PR"; trigger phrase list extended (`"we will raise PR"`, `"we'll do it internally"`, `"keep this for the team"`, `"needs discussion, then we'll PR"`).
+- `evaluation-checklist.md` Documented failures: full mastra #15089 / PR #15119 narrative + lesson re: checking closed-without-merge external PRs.
+- `WORKFLOW.md` mastra entry: added R17 internal-lock check command (`gh pr list --search "<issue-num> in:body" --state closed`).
+- `shipped-log.md` Aborted targets: row for mastra #15089 with abort rationale.
+
+**Outcome state**: PR #15904 open, awaiting maintainer review. mastra portfolio status: 1 merged (#15692) + 1 upstream open (#15904) + 1 PR-into-PR open (grundmanise/mastra#1) — within `Max 2 open PRs per org` rule (PR-into-PR doesn't consume mastra-ai/mastra slot, opens against `grundmanise:`).
+
+**Diff vs V0.1.3**:
+- `shipped-log.md`: new row `mastra-ai/mastra#15904`; PRs-opened counter 4 → 5 (4 upstream + 1 PR-into-PR); 2026-04-29 早 noted as NOT a dry round; new aborted-targets row mastra #15089.
+- `evaluation-checklist.md`: R17 row widened; new Documented failure entry.
+- `WORKFLOW.md`: mastra Known-bounty-paying-orgs entry gains R17 internal-lock check command.
+- `CHANGELOG.md`: this entry.
+
+**Caveat**: Did not run `pnpm typecheck` / `vitest` locally — same monorepo install gap as V0.1.3. Disclosed in PR body. Dry-ran the four expected outputs against `removeWorkingMemoryTags`'s indexOf reconstruction in source. Relying on CI surfacing on #15904.
+
+**Scope rule pressure**: 69-line PR slightly exceeds WORKFLOW hard rule #6 (50 lines / 3 files). Test occupies 55 LOC mirroring existing describe-block range; net fix is 9 LOC. Decision: ship anyway because (a) cold-account #15692 already merged builds maintainer trust margin; (b) regression test is non-negotiable for this fix shape; (c) splitting into fix-only + test-only PRs would double review burden for the same author. Disclosed in PR body. **If maintainer pushes back on size, fall back is to drop the string-content-branch fix (saves 4 LOC) — but the test stays.**
+
+**Open follow-up state** (do NOT lose):
+- Awaiting maintainer review on mastra-ai/mastra#15904. No watchdog scheduled yet — bias toward natural review cadence (mastra reviewed #15692 in 4 days). If 7 days pass with no engagement, schedule a watchdog routine matching the V0.1.3 grundmanise/mastra#1 pattern (`trig_01VmjHWi8uLW5Zxkc1VUPry2` precedent).
+- V0.1.3 open follow-ups carried forward unchanged: grundmanise/mastra#1 watchdog (`trig_01VmjHWi8uLW5Zxkc1VUPry2`) + formatBlock follow-up trigger (`trig_013bUbcqV4jaEyJzdHALTPTD`). Both still active.
+- R17 trigger phrase list will likely keep growing — every new "internal lock" wording variation seen in the wild should be appended to `evaluation-checklist.md` R17 row in the same edit.
+
+---
+
 ## V0.1.3 — 2026-04-28 — first PR-into-PR (grundmanise/mastra#1 forward-ports tripwire into #15637)
 
 **Trigger**: grundmanise replied 2026-04-28 09:58Z on `mastra-ai/mastra#15637` explicitly inviting Francis to push commits to his branch (*"contribute to my PR branch here `grundmanise:grundmanise/channel-stream-hook` ... merge everything through this single PR"*). Resolves the V0.1.2 open-follow-up state — replaces the original "wait, then either bundle formatBlock or file follow-up" plan with "ship the regression-prevention port first, defer formatBlock as separate follow-up after #15637 merges".
