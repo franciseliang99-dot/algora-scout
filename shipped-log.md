@@ -80,6 +80,14 @@ Keep brief. Each row documents *why* we walked away so future scouts don't re-in
 | 2026-04-28晚 | outerbase/starbasedb 整 repo | **R8 致命**: 最后一次任何 PR merge 是 founder Brayden 2025-03-13,距今 13.5 个月;整 repo 14 个月零 merge。冷账号开了 PR 也永远 stale。Algora bounty issues 全 /attempt 抢占但 PR 无人 review = bounty 永远不发。整 repo poison。
 | 2026-04-29早 | mastra #15089 Vector SDK return types mismatch | **R17 同质 (new sub-pattern)**: octo-patch PR #15119 已 OPEN 完整 fix,`intojhanurag` 评论 "It needs discussion , then we will raise PR" 后 close (2026-04-07,距今 22 天仍无内部 fix PR)。mastra 是部分 issue 内部锁(非整 repo 锁)——`intojhanurag` 是 mastra 内部维护者,他这一句话相当于 cal.com `[CAL-XXXX]` "handled internally" 的口语版。下次扫 mastra issue 必读最近 closed PR 看是否被 "we will raise PR" 拦截过。| |
 
+## Documented strategy overrides
+
+User-explicit decisions that bypass project-level gates. Each row records the bypass for transparency + revert path.
+
+| Date | Override | Gate bypassed | User rationale | Revert |
+|---|---|---|---|---|
+| 2026-04-29 | Rust Tier 2 → Tier 1 (full cap removal) | "After first Rust PR merged: revisit tier" — at 0 merged Rust PR | User explicit ("A — 升 Tier 1 全解除") via 2026-04-29 session, no triggering candidate cited; first-Rust-PR risk acknowledged | `git revert <V0.1.5 sha>` restores Tier 2 state across `WORKFLOW.md` + `user_tech_stack.md` + this row |
+
 ## Org-level takeaways (2026-04-24)
 
 更新 `~/.claude/skills/algora-scout/SKILL.md` "Known bounty-paying orgs" / "Known poison" 列表时参考以下。

@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## V0.1.5 — 2026-04-29 — Rust Tier 2 → Tier 1 (user-explicit override at 0 merged Rust PR; gate bypass acknowledged)
+
+**Trigger**: User said "我要解除 rust 的限制" mid-session, then explicitly chose option "A" (升 Tier 1 全解除) when offered four interpretations (A: full lift / B: only ≤150-line cap / C: only "Still Avoid" list / D: only 2-3x time-budget note). No triggering Rust candidate cited; not driven by a specific bounty in the pipeline. Pure strategy decision.
+
+**Gate being bypassed**: `WORKFLOW.md` Rust block 2026-04-24 was tagged "Tier 2 provisional ... After first Rust PR merged: revisit tier — upgrade to Tier 1 or revert to Tier 3". At the time of this V0.1.5 commit, **0 Rust PRs have been merged** (entire shipped-log shows only TS PRs: #15692 merged + #15637 / #15904 / grundmanise#1 open). User is overriding the gate without the triggering merge.
+
+**Action taken** (3 git-tracked files + 1 user-level memory + 1 project-level memory):
+- `user_tech_stack.md` (user memory at `~/.claude/projects/-home-myclaw/memory/`) — Rust line moved Tier 2 → Tier 1 with explicit override timestamp; "How to apply when scouting" tier ranking section updated to list Rust under Tier 1; domain-Still-Avoid (crypto / kyo / dozer) preserved as orthogonal to tier.
+- `WORKFLOW.md` (project) — Tier definition block reworded (Rust into Tier 1, Tier 2 down to Java/C++ only); detailed Rust block (formerly 8 lines describing Tier 2 cap + 2-3x time budget + revisit gate) replaced with Tier 1 framing + revert path; **领域 Still Avoid (dozer/sxt/kyo) preserved verbatim** because these are domain-depth risks (async streaming internals / crypto audit red line / 自研 DSL learning curve) — orthogonal to tier; helper being Rust-fluent does not unblock them.
+- `shipped-log.md` (project) — new "Documented strategy overrides" section above "Org-level takeaways"; row records the bypass with revert path.
+- `CHANGELOG.md` (project) — this entry.
+- `~/.claude/projects/-home-myclaw-algora-scout/memory/feedback_user_overrides.md` (project memory, NEW) — feedback memory documenting the precedent so future Claude sessions don't treat "user can override self-set gate at 0 evidence" as the default; only this specific Rust→Tier 1 override is sanctioned, future overrides require fresh user-explicit decision.
+
+**Step-0 subagent审核** flagged 4 considerations and gave 3-file + 1-commit landing plan; full plan adopted with one addition: subagent missed `user_tech_stack.md` as the user-level source of truth (project WORKFLOW is a copy), which has been updated synchronously. Subagent's decision against keeping a "soft ≤150-line cap as first-Rust-PR cushion" is honored (留软上限 = gate 改穿马甲, violates "绕 gate 留痕透明").
+
+**Diff vs V0.1.4**:
+- `WORKFLOW.md`: 行 10-12 tier 块 + 行 145-152 Rust 详细段
+- `shipped-log.md`: new "Documented strategy overrides" section + 1 row
+- `CHANGELOG.md`: this entry
+- `user_tech_stack.md` (memory, not in git): 1 stack-line + How-to-apply tier list
+- `feedback_user_overrides.md` (memory, not in git, NEW): precedent record
+
+**Caveat — bypass risks**:
+- First Rust PR will lack the Tier 2 safety net (≤150 line cap was meant to limit blast radius if helper-cadence assumption fails). User has accepted this risk in choosing A.
+- `Still Avoid` (dozer/sxt/kyo) **is not** lifted — keeping these as poison protects against orthogonal failure modes (domain-depth) that helper fluency doesn't address.
+- If a Rust PR ships and stalls for >7 days OR closes-rejected, V0.1.6 should reconsider whether the Tier 1 framing is sustainable or should retreat to a narrower override.
+
+**Revert path**: `git revert <V0.1.5 sha>` returns three files to V0.1.4 state. User-level memory `user_tech_stack.md` is **not in git** and must be manually reverted using its prior content (preserved in this CHANGELOG entry above as reference).
+
+**Open follow-up state** (carried forward from V0.1.4):
+- `mastra-ai/mastra#15904` awaiting maintainer review (no watchdog scheduled yet — natural cadence ~5 days based on #15692 precedent).
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` active (Monday 17:00 UTC).
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` active (daily 18:00 UTC, fires once #15637 merges).
+
+---
+
 ## V0.1.4 — 2026-04-29 — second upstream mastra PR (#15904 fixes #15880 trim regression) + R17 sub-pattern (per-issue internal lock via "we will raise PR")
 
 **Trigger**: User-invoked scout 2026-04-29 早. Algora pools (TS / Python / JS) fully poison-blocked (archestra R4 / twentyhq IMAP R16 / zio R1 / kyo R1) — same poison set as 2026-04-28 晚, no incremental bounty additions. Pivoted to no-bounty bug-fix scouting in already-friendly orgs (post-#15692 mastra confidence). Two candidates surfaced: mastra #15089 (Vector SDK return types) and mastra #15880 (`filterMessagesForPersistence` trim regression). #15089 had a fully-formed external fix (`octo-patch` PR #15119) closed 22 days ago by `intojhanurag` with *"needs discussion, then we will raise PR"* — same shape as cal.com R17 internal lock. #15880 was clean: complete repro + suggested fix in issue body, regression source PR #15454 (CalebBarnes 2026-04-21) cited, no `/attempt` claims, devin-ai-integration not in `processors/memory/message-history.ts`.

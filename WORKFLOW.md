@@ -7,9 +7,9 @@ Project hard rules in `CLAUDE.md`. Trigger words are routed through the shim at 
 Context is in `~/.claude/projects/-home-myclaw/memory/`:
 
 - `user_tech_stack.md` — language allowlist with **ship-readiness tiers**. Allowlist: Python, TS/JS, Java, C++, Rust. Reject others from recommendations (still show in market-view section C).
-  - Tier 1 (Python / TS / JS): any scope.
-  - Tier 2 (Java / C++ / **Rust provisional 2026-04-24**): bug fixes + small features ≤150 lines. Rust 因配对帮手升 Tier 2，但首次 PR 仍按 2-3x 时间预算 + 帮手协作节奏未验证；首个 Rust PR merged 后复盘是否升 Tier 1 或回退 Tier 3.
-  - Tier 3: (empty after 2026-04-24 Rust upgrade)
+  - Tier 1 (Python / TS / JS / **Rust** since 2026-04-29): any scope.
+  - Tier 2 (Java / C++): bug fixes + small features ≤150 lines.
+  - Tier 3: (empty after 2026-04-29 Rust upgrade to Tier 1)
 - `user_english_constraint.md` — async-only platforms; skip anything with live review calls.
 - `feedback_direct_next_step.md` — after analysis, state the one next action as a directive; don't offer options.
 
@@ -142,14 +142,14 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 **C++**:
 - godotengine/godot, ClickHouse/ClickHouse, envoyproxy/envoy — only take bugs with clear repro + stack trace; skip architecture changes.
 
-**Rust (Tier 2 provisional since 2026-04-24 — user paired with a Rust-fluent helper)**:
-- Scope cap: ≤150 lines / 3 files, $100-500. First PR still 2-3x time budget until helper's cadence verified.
-- Acceptable: gyroflow/gyroflow (stabilization-parameter bugs), small Rust CLIs, Algora /rust bounties with clear repro. Previously-aborted gyroflow #384 stays aborted (prior fix PRs closed, not a helper-tier question).
-- **Still Avoid** (领域深度问题，帮手懂 Rust 也拆不小):
+**Rust (Tier 1 since 2026-04-29 — user-explicit override at 0 merged Rust PR; gate bypass acknowledged)**:
+- Scope cap: none (same as Python/TS/JS).
+- Acceptable: gyroflow/gyroflow (stabilization-parameter bugs), small Rust CLIs, Algora /rust bounties, larger Rust features. Previously-aborted gyroflow #384 stays aborted (prior fix PRs closed — historical reason, not tier-related).
+- **Still Avoid (orthogonal to tier — domain-risk, not capacity-risk)**:
   - getdozer/dozer — async streaming internals
   - spaceandtimefdn/sxt-proof-of-sql — crypto audit red line
   - getkyo/kyo — 自研 effect system / DSL 学习曲线
-- After first Rust PR merged: revisit tier — upgrade to Tier 1 (unlimited scope) or revert to Tier 3 based on helper's review turnaround, diff-reading depth, and willingness to engage with maintainer pushback.
+- Override revert path: `git revert` of the V0.1.5 commit returns Rust to Tier 2 with `≤150 lines / 3 files / $100-500` cap and the original "After first Rust PR merged: revisit tier" gate.
 
 **Known poison**:
 - archestra-ai/archestra — bounty labels don't mention it, but issue bodies say "Reserved for SE interview". Cold account will ship unpaid.
