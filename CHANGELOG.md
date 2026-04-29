@@ -1,5 +1,67 @@
 # CHANGELOG
 
+## V0.1.8 — 2026-04-29 — PHP+Scala+Java+Ruby allowlist+Tier 1 lift (user-explicit override mirrors V0.1.5 shape; 0-exp framing acknowledged)
+
+**Trigger**: User said "全部解锁portfolio" then "按你推荐的" mid-V0.1.7 dry-sweep aftermath, when offered 5 enumerated interpretations (I-1 literal drop all R1 / I-2 drop R1+hard rules REJECTED / I-3 PHP-only / I-4 Scala-only / **I-5 Algora-paid-org allowlist PHP+Scala+Java+Ruby keep hard rules** ← chosen). **Triggering reason**: pure strategy upgrade post-V0.1.7 dry sweep revealing TS/Python/Rust = 0 platform-wide active bounties; no specific candidate cited.
+
+**Gates being bypassed** (3):
+- (a) `user_tech_stack.md` "DOES NOT have production experience" list containing PHP/Ruby/Scala
+- (b) `WORKFLOW.md` Java Tier 2 ≤150 line cap
+- (c) `WORKFLOW.md` L165 coollabsio R1 PHP poison row (V0.1.7 takeaway #8 + V0.1.7 abort row)
+
+**Step-0 subagent 审核** (2 rounds): first enumerated 5 interpretations + I-2 REJECT + I-5 default safe; second GREEN-LIGHT + 3 implementation extensions (delete L165 coollabsio R1 row, append-only counter-rows for previously R1-aborted ZIO/coolify entries, extend Still-Avoid orthogonal: kyo for Scala / kafka+pulsar for Java / keycloak IAM/security 红线). 全部采纳。
+
+**Action taken** (3 git-tracked files + 2 memory files):
+- `WORKFLOW.md` — L9-12 tier description (allowlist + Tier 1/2 重排 + 0-exp 注); L130-148 paid orgs section 加 PHP/Scala/Ruby block (each w/ scout target + 0-exp ramp-up + Still Avoid orthogonal + revert path); Java reframed Tier 2→Tier 1 with 2-yr-gap caveat; L165 coollabsio R1 row → "解锁 by V0.1.8" (revert-restorable)。
+- `shipped-log.md` — "Documented strategy overrides" 加 V0.1.8 row mirror V0.1.5; 新 "Counter-rows for V0.1.8 portfolio unlock" section 列已变状态的历史 abort 行 (zio/* R1 部分解锁 / coollabsio R1 完全解锁 / PX4/gyroflow/mastra/twentyhq/cal.com 不变); append-only 不删原行。
+- `CHANGELOG.md` — this entry + V0.1.7 catchup entry (omitted from V0.1.7 commit 8b395d5)。
+- `user_tech_stack.md` (user memory at `~/.claude/projects/-home-myclaw/memory/`) — Stack 段加 PHP/Scala/Ruby Tier 1 lines (0-exp acknowledged + ramp-up budget + scout target + revert path); Java Tier 2 → Tier 1; "DOES NOT have production experience" 删 PHP/Ruby/Scala; allowlist + tier ranking + Market info Scala 段同步更新。
+- `feedback_user_overrides.md` (project memory) — Precedent log 加 V0.1.8 行 + 新 "0-exp Tier 1 framing precedent" 段。
+
+**Caveat — bypass risks** (different shape from V0.1.5 Rust):
+- **PHP/Scala/Ruby = 0 production experience**; Tier 1 标记 reflect scout-allowlist 不是 production depth。Future Claude 读 user_tech_stack.md 必须看行内 0-exp 注。
+- **First-PR 风险高于 V0.1.5 Rust**: V0.1.5 时用户已学过 Rust + paired with helper; V0.1.8 三语言全冷启动, 首战 PR 失败率 structurally higher。
+- **Ramp-up budget**: 40-80h PHP / 100-150h Scala / 30-60h Ruby; 首战 PR ≤$300 low-stakes + clear-repro 入门, 验证 cold-account merge rate 后再投 mid-range。
+- **Still Avoid orthogonal 保留**: getkyo/kyo (Scala 升 Tier 1 仍 avoid, 与 V0.1.5 Rust block 一致); apache/kafka + apache/pulsar (distributed-systems internals); keycloak (IAM/security 红线); getdozer/dozer + spaceandtimefdn/sxt (Rust)。
+
+**Revert path**: `git revert <V0.1.8 sha>` 恢复三 git-tracked 文件 (WORKFLOW.md + shipped-log.md + CHANGELOG.md)。`user_tech_stack.md` + `feedback_user_overrides.md` **均不在 git** (在 `~/.claude/projects/.../memory/`), 必须按本 entry 列的改动手动 revert。
+
+**Diff vs V0.1.7**:
+- `WORKFLOW.md`: tier desc + paid orgs 大改 + 新增 PHP/Scala/Ruby block + Java reframed + L165 row reformatted
+- `shipped-log.md`: strategy override 加 1 row + 新 Counter-rows section
+- `CHANGELOG.md`: V0.1.8 + V0.1.7 catchup entries
+- `user_tech_stack.md` (not in git): 5 stack lines + allowlist + tier ranking + market info
+- `feedback_user_overrides.md` (not in git): precedent + 0-exp framing 段
+
+**Open follow-up state** (carried forward unchanged from V0.1.7):
+- `mastra-ai/mastra#15904` awaiting review (~5 day cadence; watchdog due 2026-05-04)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog NOT scheduled
+- **NEW V0.1.8 implication**: 下轮 scout 必须按新 allowlist 重扫 Scala (47 active / $38k) + PHP (38 active / $3.7k) + Ruby (maybe-finance watchdog) + Java (apache/* + keycloak 边缘 issue); ZIO #519 ($20k 三层叠) 优先但 100-150h Scala ramp-up hard limit, 留给用户 next-action 触发。
+
+---
+
+## V0.1.7 — 2026-04-29 (catchup, omitted from V0.1.7 commit 8b395d5) — 全平台 sweep dry scan (4 新 abort + R6-sec 新类型 + 平台 TS/Python/Rust 三池 0)
+
+**Trigger**: User-invoked scout 2026-04-29 晚 (post-V0.1.6 same day). Subagent 给 PROCEED narrow scope: per-org page scan 必跑、mastra portfolio 已到 cap (#15904 + grundmanise#1) 不能加第 3 PR、跳过所有 known poison。完整覆盖: 平台全 14 个 GitHub-issue 型 bounty (HTML grep ground truth) + 4 个 Tier 1 paid org per-org 页 (twentyhq / CapSoftware / maybe-finance / gyroflow)。
+
+**Action taken** (2 git-tracked files):
+- `shipped-log.md`: dry-scan rounds 6 → 8 (V0.1.6 中 + V0.1.7 晚); aborted-targets 加 4 行 (coollabsio R1 PHP/Blade re-confirm + PX4 R1 C++ + zed#4440 R3 CLOSED + Cap-go/capgo#1667 R6-sec security disclosure rolling pool); Org-level takeaways 加 #9-#12。
+- `WORKFLOW.md`: Known poison 加 coollabsio (R1 PHP) + PX4 (R1 C++) + Cap-go (security pool 模式) + algora.io 列表 stale 信号; "(as of 2026-04-26)" → "(as of 2026-04-29)"。
+
+**Key findings** (sweep 后才发现, subagent 没预测):
+1. 全平台 26 open bounty 仅 Scala 10 / CSS 7 / JS 7 / Java 2 / Nix 1 / Shell 1; **TS / Python / Rust = 0**。
+2. **R6-sec 新 abort 类型**: Cap-go/capgo#1667 = security disclosure rolling pool ($2,780+ / 17 awards / 13 commenters), Francis 不做 security research → 整 org 跳。
+3. **algora.io 列表 stale**: zed#4440 已 GitHub CLOSED 仍 list, 24-72h 不 sync。Pre-flight `gh issue view <num> --json state,body,labels`。
+4. **HTML grep > WebFetch**: WebFetch 必只回前 10; `curl -sL ... | grep -oE 'github\.com/.../issues/[0-9]+' | sort -u` 是 ground truth。
+
+**Outcome**: Algora 直接赚钱可能 0 (4-8 周空窗); credibility-only path 仍活水。User 询问 "Algora 没钱了吗" → subagent 评估 "过度悲观, Francis 切片对 Algora 池零匹配"; 进入 V0.1.8 portfolio unlock 决策。
+
+**Diff vs V0.1.6**: shipped-log.md +20/-2; WORKFLOW.md +6/-1.
+
+---
+
 ## V0.1.6 — 2026-04-29 — per-org page scan 发现 (gyroflow 4/4 abort, maybe-finance 入册, "假 paid org" + "无 algora 页" 列表扩展)
 
 **Trigger**: User selected option C ("复查 Algora per-org page") then D ("写 abort log + 扫 8 个新 orgs") after V0.1.5 push. Tier 1 解禁后第一次系统性 per-org page 扫描——之前 scout 只用 algora.io/bounties 全局列表 + 6 个语言子页,**漏掉 per-org 单页挂的 bounty**。

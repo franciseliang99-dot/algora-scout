@@ -95,6 +95,7 @@ User-explicit decisions that bypass project-level gates. Each row records the by
 | Date | Override | Gate bypassed | User rationale | Revert |
 |---|---|---|---|---|
 | 2026-04-29 | Rust Tier 2 → Tier 1 (full cap removal) | "After first Rust PR merged: revisit tier" — at 0 merged Rust PR | User explicit ("A — 升 Tier 1 全解除") via 2026-04-29 session, no triggering candidate cited; first-Rust-PR risk acknowledged | `git revert <V0.1.5 sha>` restores Tier 2 state across `WORKFLOW.md` + `user_tech_stack.md` + this row |
+| 2026-04-29 V0.1.8 | PHP+Scala+Java+Ruby allowlist+Tier 1 lift (I-5 mirror V0.1.5) | (a) `user_tech_stack.md` "DOES NOT have production experience" list 含 PHP/Ruby/Scala (b) WORKFLOW.md Java Tier 2 cap (c) WORKFLOW.md L165 coollabsio R1 PHP poison row | User explicit ("按你推荐的" = I-5 default) via 2026-04-29 session post-V0.1.7 dry sweep (TS/Python/Rust = 0 platform-wide active bounties); no specific candidate cited; **PHP/Scala/Ruby = 0 production experience cold-start risk acknowledged** (40-80h PHP / 100-150h Scala / 30-60h Ruby ramp-up); hard rules (≤50/3, 2 PR/org) preserved; Still Avoid orthogonal extended (kyo for Scala / kafka+pulsar+keycloak for Java) | `git revert <V0.1.8 sha>` restores R1 state across `WORKFLOW.md` + `user_tech_stack.md` + this row + `feedback_user_overrides.md` precedent. Memory `user_tech_stack.md` 不在 git, 必须按 CHANGELOG V0.1.8 entry 手动 revert。 |
 
 ## Org-level takeaways (2026-04-24)
 
@@ -125,3 +126,15 @@ User-explicit decisions that bypass project-level gates. Each row records the by
 11. **新 abort 类型 R6-sec: "security disclosure rolling pool"** (Cap-go/capgo#1667 验证) — algora.io 列表里出现的某些 issue 是 **rolling security bounty pool** 而非传统 PR-fix bounty: issue body 几乎空,高评论数,多 awarded 散布给多个 commenter (Cap-go#1667: 17 awards/$2,780+ to 13 commenters)。性质与 OSS PR-fix scout 不同: 不写代码 PR,而是 security disclosure form。**Francis 不做 security research → 整 Cap-go 永久跳**。识别信号 (任三同满 = security pool): ① body < 50 字 ("Describe the bug/issue\n") + ② 评论数 > 30 + ③ 同 issue 3+ awarded events + ④ 关键词 "security"/"retribution"/"disclosure"/"vulnerabilities"。
 
 12. **平台扫描 ground truth 工具链** (2026-04-29 晚 verified): WebFetch LLM-summarize **必只回前 10 个 bounty**,无法穷举平台所有 26 个。换 `curl -sL "algora.io/bounties?status=open" -H "User-Agent: Mozilla/5.0" | grep -oE 'github\.com/[^"]+/issues/[0-9]+' | sort -u` 直接抓 HTML 里 GitHub issue URL,确定性 14 行无 paginate / 无 LLM 漏。**HTML grep 是平台 GitHub-issue 型 bounty 的 ground truth**,WebFetch 是 platform-bounty (twentyhq/coollabsio 这种 issue 不在 GitHub) 的 ground truth — 二者并行跑。
+
+## Counter-rows for V0.1.8 portfolio unlock (2026-04-29)
+
+V0.1.8 解锁 PHP/Scala/Ruby/Java 后, 历史 abort 行中 R1 触发的状态需 reflect 新 tier。**Append-only 不删原行**, 改为:
+
+- `2026-04-25晚 | zio/* 全部 + getkyo/kyo #390 | R1: Scala 不在 allowlist`: **R1 部分由 V0.1.8 解锁** (Scala Tier 1) → ZIO 池现可投; getkyo/kyo 仍 Still-Avoid (effect-DSL 域风险, V0.1.8 保留); kyo gRPC scope 警告 (>>50 行) 独立于 tier 仍有效。
+- `2026-04-29晚 | coollabsio/coolify 整 org R1 PHP/Blade`: **完全解锁** (PHP Tier 1) → 38 active / $3,693 现可投, $1,382 历史 + 0-exp 40-80h ramp-up budget 见 WORKFLOW.md PHP block。
+- `2026-04-29晚 | PX4/PX4-Autopilot #22464 R1 C++`: **不动** (C++ 仍 Tier 2; PX4 Tier 2 中 architecture-change 类 issue 仍 skip)。
+- gyroflow #742 / #45 / #150 / #384 abort 行 **不变** (R1 不是 abort 原因; R2/R3/R6/R12 仍有效)。
+- mastra/twentyhq/cal.com/maybe-finance abort 行 **不变** (R2/R3/R5/R12/R16/R17 与 tier 正交)。
+
+**Revert**: `git revert <V0.1.8 sha>` 移除本 counter-rows 段, ZIO/coollabsio R1 砍 自动恢复。
