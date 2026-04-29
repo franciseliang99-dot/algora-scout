@@ -123,7 +123,7 @@ Append a row to `shipped-log.md`. Update when state changes (CI, review, merge, 
 5. **Never include AI attribution in third-party PR commits or bodies**. User owns authorship, Claude is internal tooling.
 6. **Scope cap**: 50 lines changed, 3 files touched. Over that → drop or split. Cold accounts don't ship multi-file refactors.
 
-## Known bounty-paying orgs (as of 2026-04-26)
+## Known bounty-paying orgs (as of 2026-04-29)
 
 Verified via Algora pages. Priority order for scouting = cold-account friendliness × stack match. **Pre-flight:** `WebFetch algora.io/<slug>` to confirm `total awarded > 0` before investing — paid status decays.
 
@@ -162,6 +162,10 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - **"假 paid org" 模式** — algora 页存在但 `$0 awarded / 0 completed` = 不是真 paid org. 已验:`novuhq`, `formbricks`, `resend`, `Unstructured-IO`, `tauri-apps` (2026-04-29 验,$0/0,推测过去通过非-algora 渠道发 bounty). 通用规则:扫前 WebFetch `algora.io/<slug>` 确认 awarded > $0,否则跳.
 - **"无 algora 页"** — 部分名义 paid org 实际未在 algora.io 自助 host 任何 bounty. 已验 404:`better-auth`, `payloadcms`, `Chainlit`, `sst`, `tldraw`, `dyrector-io`, `cal`/`calcom`/`cal-com` (多 slug 变种均 404), `mastra-ai` (404 — bounties only via per-repo issue labels), `zulip` (404). 不要再为这几个 org 拉 algora 页.
 - **outerbase/starbasedb** — R8 致命: 整 repo 13.5+ 个月零 PR merge (last merged 2025-03-13 by founder Brayden, screened 2026-04-28). bounty issues #59 / #72 各 3+ 人 /attempt + 完整 PR (#129/#138) OPEN 但 maintainer 全无 review。冷账号开了 PR 也 stale。整 repo 不投。
+- **coollabsio/coolify** — R1 PHP/Blade。`gh api repos/coollabsio/coolify/languages` = PHP 6.8M + Blade 1.6M + JS 56KB,主语言锁外 portfolio (TS/JS/Python/Rust)。Algora 38 open bounties / $3,693 / repo 54k stars 健康,但语言不解。整 org 永久跳直到 portfolio 加 PHP (V0.1.6 takeaway #8 + V0.1.7 re-confirm)。
+- **PX4/PX4-Autopilot** — R1 C++ autopilot/无人机项目。Algora 平台直接挂 issue (#22464)。同 ClickHouse/envoy/godot 类 — Francis portfolio 无 C++,跳。
+- **Cap-go/capgo (security disclosure rolling pool 模式)** — algora.io/Cap-go 直接 404,但 algora.io/bounties 主页列 #1667 "security issues retribution"。issue body 极短 + 60 评论 + 17 awards $2,780+ 散给 13 commenters → 是 **rolling security bounty pool** 而非 PR-fix bounty。性质 = security disclosure form,不写代码 PR。**Francis 不做 security research → Cap-go 整 org 永久跳** (V0.1.7 takeaway #11)。识别信号 (任三同满): body < 50 字 + 评论 > 30 + 单 issue 3+ awarded events + 关键词 "security"/"retribution"/"disclosure"。
+- **algora.io 列表 stale 信号** — algora.io/bounties 不 sync GitHub close 事件 (24-72h 延迟)。verified 2026-04-29: zed-industries/zed #4440 vim Replace mode 已 GitHub CLOSED 但 algora 仍列。Pre-flight 必跑 `gh issue view <num> --repo <org>/<repo> --json state,body,labels` 验 ① state != CLOSED ② body 长度 > 50 字 (避免 R6-sec security pool) ③ labels 不含 "security/disclosure/retribution"。
 
 ## Portfolio rules (cold-account specific)
 
