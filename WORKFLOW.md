@@ -133,7 +133,7 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - twentyhq/twenty (slug `twentyhq/home`; large-scope bounties; R16 IMAP/CalDAV/Gmail incumbent in poison list)
 - CapSoftware/Cap (slug `CapSoftware`; mostly Rust crates)
 - cal.com (old, crowded; many R5/R17 locks — see abort log)
-- maybe-finance (slug `maybe-finance`; **$18,000 awarded / 47 completed** as of 2026-04-29 — 2nd largest after cal.com; primarily Rails/Ruby with significant TS-adjacent issues; **R1 砍 Ruby 部分,只投 TS 子组件**; currently 0 active — watchdog candidate)
+- ~~maybe-finance (slug `maybe-finance`; **$18,000 awarded / 47 completed**; primarily Rails/Ruby; watchdog candidate)~~ **→ 移到 Known poison by V0.1.11** (2026-04-29 夜 verified: repo ARCHIVED 2025-07-24 + issues disabled; revert path: `git revert <V0.1.11 sha>` 恢复 paid orgs 入册状态, 但 archived 事实需要 maybe-finance 主动 unarchive 才有意义)
 
 **Python-heavy**:
 - Zulip/zulip
@@ -192,6 +192,7 @@ Verified via Algora pages. Priority order for scouting = cold-account friendline
 - **PX4/PX4-Autopilot** — R1 C++ autopilot/无人机项目。Algora 平台直接挂 issue (#22464)。同 ClickHouse/envoy/godot 类 — Francis portfolio 无 C++,跳。
 - **Cap-go/capgo (security disclosure rolling pool 模式)** — algora.io/Cap-go 直接 404,但 algora.io/bounties 主页列 #1667 "security issues retribution"。issue body 极短 + 60 评论 + 17 awards $2,780+ 散给 13 commenters → 是 **rolling security bounty pool** 而非 PR-fix bounty。性质 = security disclosure form,不写代码 PR。**Francis 不做 security research → Cap-go 整 org 永久跳** (V0.1.7 takeaway #11)。识别信号 (任三同满): body < 50 字 + 评论 > 30 + 单 issue 3+ awarded events + 关键词 "security"/"retribution"/"disclosure"。
 - **algora.io 列表 stale 信号** — algora.io/bounties 不 sync GitHub close 事件 (24-72h 延迟)。verified 2026-04-29: zed-industries/zed #4440 vim Replace mode 已 GitHub CLOSED 但 algora 仍列。Pre-flight 必跑 `gh issue view <num> --repo <org>/<repo> --json state,body,labels` 验 ① state != CLOSED ② body 长度 > 50 字 (避免 R6-sec security pool) ③ labels 不含 "security/disclosure/retribution"。
+- **maybe-finance/maybe (整 org)** — ARCHIVED 2025-07-24 (verified 2026-04-29 夜 via `gh api repos/maybe-finance/maybe --jq .archived = true` + `pushedAt 9 月零提交` + `hasIssuesEnabled: false`)。algora.io/maybe-finance 仍列 5 个 active bounty 但全 stale (marketing#301 MERGED 2025-04-30 + maybe#2081 CLOSED 2025-04-18 都是 1 年前 rewarded; maybe#1718/1734/2077 410 Gone)。**新 algora.io stale 类型 — 12 月陈尸,比 zed#4440 (24-72h) 高一个 order of magnitude**。整 org 永久跳直到 maybe-finance 主动 unarchive。**新 watchdog 触发条件**: 出现 active bounty AND `gh repo view <r> --json archived,hasIssuesEnabled,pushedAt` ① archived=false ② hasIssuesEnabled=true ③ pushedAt < 90d ago — 三件齐才启动 (V0.1.11 takeaway #14)。
 
 ## Portfolio rules (cold-account specific)
 

@@ -1,5 +1,41 @@
 # CHANGELOG
 
+## V0.1.11 — 2026-04-29 夜深 — maybe-finance archived 永久跳 (Ruby Tier 1 选 C hibernate, mirror Rust V0.1.5 precedent)
+
+**Trigger**: User said "现在我们有几个 bounty" → discovered V0.1.7 sweep 数据 24h 内已过期: per-org page 实测 maybe-finance 0→5 active bounty (V0.1.6 takeaway #7 watchdog 触发条件首次满足) → user said "要" 扫这 5 个 → Step 0 subagent 第一轮就给 STOP: `gh api repos/maybe-finance/maybe` = `archived: true` + `pushedAt: 2025-07-24` (9 月零提交) + `hasIssuesEnabled: false`; verify 5 个 algora-listed bounty 全 stale: marketing#301 MERGED 2025-04-30 + maybe#2081 CLOSED 2025-04-18 (都是 1 年前 rewarded) + maybe#1718/1734/2077 410 Gone (issues disabled) → user said "你推荐哪个" 三选 (A 撤 Ruby Tier 1 / B 找新 Ruby paid org / C hibernate 不撤) → 推荐 C → user said "go".
+
+**Action taken** (3 git-tracked files):
+- `WORKFLOW.md`: ① L136 maybe-finance 行 strikethrough + stub "→ 移到 Known poison by V0.1.11" (mirror V0.1.8 coollabsio 解锁模式: 留历史 trail 不完全删除,保 mutually-referential 三文件互引可追溯); ② Known poison section 加新 bullet "maybe-finance/maybe (整 org) — ARCHIVED 2025-07-24 ... 整 org 永久跳" + 新 watchdog 触发条件三件齐 (archived=false / hasIssuesEnabled=true / pushedAt < 90d)
+- `shipped-log.md`: ① Aborted-targets 加 V0.1.11 row (maybe-finance 5/5 stale + R-archived 新 abort 类型 + Ruby Tier 1 选 C 注); ② 新起 "Org-level takeaways (2026-04-29 夜深 — V0.1.11 maybe-finance archived)" section + 单条 takeaway #14 (algora.io 12 月陈尸 stale 新极端 + 替换 V0.1.6 #7 watchdog 触发条件 + Ruby Tier 1 hibernate decision 引)
+- `CHANGELOG.md`: this entry
+
+**Why** algora.io stale 是新极端: V0.1.7 takeaway #10 记的 stale 是 zed#4440 / Cap-go#1667 = 24-72h GitHub close 事件 sync 延迟。这次 maybe-finance = repo archived 9 个月 + 5 个 listed bounty 中 2 个 1 年前 rewarded + 3 个 issues disabled,**algora.io 仍列**。stale 量级比之前高一个 order of magnitude (24-72h → 12 月)。直接含义: V0.1.6 takeaway #7 maybe-finance "0 active 时建 watchdog 等池补" 单维度触发被证伪 — 池补的 bounty 也可以是陈尸。新触发条件加 unarchived gate + issues enabled gate + pushedAt < 90d gate。
+
+**User-explicit override 框架 reaffirm (load-bearing)**: V0.1.5 Rust Tier 1 lift (0 merged Rust PR + user explicit) + V0.1.8 PHP/Scala/Java/Ruby allowlist + Tier 1 lift (0 production exp + user explicit) 已建立 user-explicit override 框架。`feedback_user_overrides.md` 明令 "user explicit override 不能 silent drop, 只能 user 主动撤"。本次 Ruby Tier 1 选 C hibernate **不撤** 是 explicit decision (非无脑保守): ① **Rust precedent consistency** — Rust 同样 0 PR + Tier 1 hibernate 至今未撤 (CHANGELOG V0.1.5 → V0.1.10 全程保留),Ruby 同形必同处置;② **平台无 Ruby active bounty** (V0.1.7 takeaway #9 + 今晚 verify 平台 15 个 active 0 Ruby repo) — 撤 Ruby 也不解锁任何新 candidate;③ **撤 Ruby 留 Rust 立"实测无 candidate 即撤"隐性触发器**, 破坏 override 框架 consistency 长期心智负担; ④ **C 代价 ≈ 0** — 仅文档加一条 dormant 标记, revert path 由 V0.1.8 sha 保留不动。所以选 C 是与 V0.1.5/V0.1.8 同框架的 explicit 保留, 非 silent retain。
+
+**Step-0 subagent 审核** (3 rounds): first round (用户问 "几个 bounty" 语义解读) GAVE 4 解读 + 推 (b) portfolio claimed = 0; second round (扫 5 个 maybe-finance bounty 是否可行) GAVE STOP 决断 + 4 stop conditions (archived / issues disabled / 9-mo no push / 5/5 closed),全采纳; third round (Ruby Tier 1 三选 A/B/C) GAVE C + 一致理由 (Rust precedent + override consistency + dormant 文档代价 ≈ 0); fourth round (V0.1.11 housekeeping 计划审核) GAVE 4 调整: (2) WORKFLOW paid orgs 留 strikethrough stub 不全删 + (3) takeaway #14 单起 V0.1.11 section 不并入 V0.1.10 + (4) CHANGELOG 加 user-override reaffirm 段 + (6) user_tech_stack.md / evaluation-checklist.md 同步 — 全采纳并执行,(6) 经核对 Rust precedent (没加 dormant) → Ruby 也不加, evaluation-checklist 不动 (R-flag set 与 archived gate 正交)。
+
+**Diff vs V0.1.10**:
+- `WORKFLOW.md`: L136 maybe-finance 行 strikethrough + Known poison 加 1 bullet
+- `shipped-log.md`: aborted-targets 加 1 row + 新 takeaway section + #14
+- `CHANGELOG.md`: this entry
+- `user_tech_stack.md` (memory, not in git): **不动** (Rust V0.1.5 lift 时也没加 dormant 注, Ruby mirror 同处置)
+- `evaluation-checklist.md`: **不动** (R-flag set 与 "archived repo gate" 正交, 触发条件已落 WORKFLOW + shipped-log takeaway #14)
+
+**Open follow-up state** (updated):
+- `mastra-ai/mastra#15934` review-feedback handled (push 3e8d178, reply 4349505648), awaiting maintainer (V0.1.10 carry-forward)
+- `mastra-ai/mastra#15904` awaiting review (5-day cadence, watchdog due 2026-05-04)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- ~~`maybe-finance` active-bounty watchdog NOT scheduled~~ → **永久 disable**: archived 后 V0.1.6 watchdog 触发条件证伪, 不再 schedule。新触发条件 = 三件齐 (archived=false + hasIssuesEnabled=true + pushedAt<90d), 即使 maybe-finance 解 archive 也需新 evidence-driven decision 才重启
+- **Cannibalization risk** (V0.1.9 carry-forward): mastra-ai org 现 2 open PR + 1 PR-into-PR (grundmanise#1) = 上限 2; 第 3 个 mastra-ai PR 在 #15904 / #15934 任一 review/merge/close 之前不能开
+- **Ruby Tier 1 hibernate state**: 0 Ruby PR + 0 standalone scout target (maybe-finance 死后) + Tier 1 框架保留。等 (a) maybe-finance 主动 unarchive (低概率) 或 (b) 新 Ruby paid org 浮现于 algora 平台 (V0.1.7 takeaway #9 平台已 0 Ruby, 短期不太可能) 重启 scout
+- **NEW V0.1.11 implication**: 下次 scout 对**任何** algora.io listed bounty 必跑 `gh repo view <r> --json archived,hasIssuesEnabled,pushedAt` 三件齐 pre-flight (V0.1.7 #10 zed-style state check + V0.1.11 #14 archived check 串联)
+
+**Revert path**: `git revert <V0.1.11 sha>` 恢复 algora-scout 文件 (WORKFLOW maybe-finance 移回 paid orgs + Known poison 删 maybe-finance bullet + shipped-log abort row 删 + takeaway #14 删 + CHANGELOG entry 删)。但 archived 事实是 GitHub 客观状态, revert 文件不撤 archived 状态; 如要重新启用 maybe-finance scout 需要 maybe-finance 先主动 unarchive (检测命令 `gh api repos/maybe-finance/maybe --jq .archived`)。
+
+---
+
 ## V0.1.10 — 2026-04-29 夜 — #15934 round-2 review feedback handled (V0.1.4-mode pushback sub-pattern logged)
 
 **Trigger**: User said "扫描algora并查看邮件" → discovered jmzhang 14:24Z PR comment on #15934 proposing text-spans-as-exception to first-seen ordering + CodeRabbit 2 actionable. User said "由你决定" → analyzed jmzhang 论点 vs issue #15914 原文场景 / 现有测试 / conclusive-remarks 推演 → 三步全砍 → executed 路 ② (rebut + push test swap + outcome-focused changeset rewrite).
