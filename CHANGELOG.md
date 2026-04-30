@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## V0.1.12 — 2026-04-30 早 — Tier 1 lift verification dry scan (V0.1.8 unlock 实测 paid org candidate ≈ 0; auto-close swarm + PR-level bounty 新分类入册)
+
+**Trigger**: User invoked `/effort max` + "扫描algora" → V0.1.8 PHP/Scala/Java/Ruby Tier 1 lift 后**首次系统性 paid org per-org 验证轮**。Step 0 subagent 给 portfolio snapshot + scan priorities + watch-for: (1) ZIO/coollabsio 池试水, (2) PR-level bounty 类需识别, (3) mastra direct cap 已达。全平台 HTML grep ground truth 21 个 + coollabsio per-org page 10 个 + Java/Python paid org Algora 404 验证 → 100% abort,第 9 dry scan round。
+
+**Action taken** (3 git-tracked files):
+- `shipped-log.md` — first-merge stats counter `8 → 9` dry rounds + 2026-04-30 早 V0.1.12 描述; aborted-targets 加 5 行 (ZIO 8 issue batch + coolify#7458 R2 极端 + coolify Algora 9 R9 batch + archestra 3 re-confirm + PR-level bounty 4 batch); 新起 "Org-level takeaways (2026-04-30 早 — V0.1.12 Tier 1 lift verification + new swarm pattern)" section + #15/#16/#17/#18。
+- `WORKFLOW.md` — Known poison: ① coolify 行 V0.1.8 unlock 后 append V0.1.12 swarm caveat (Algora-标 issue 池 swarm 锁 vs unassigned bug 池 R8 健康分流 + revert path 独立于 V0.1.8); ② 新增 "PR-level bounty (`/pull/N` URL 类)" bullet (grep 区分 + PR-into-PR exception); ③ 新增 "auto-close + bounty hunter swarm 模式" bullet (识别信号四件 + keephq vs swarm 同质 vector 不同对照)。
+- `CHANGELOG.md` — this entry.
+
+**Why** the 4 takeaways 是 load-bearing, 不是 routine abort log:
+- **#15 Tier 1 lift verification** = V0.1.5/V0.1.8 user-explicit override 框架的第一次 evidence-based reality check。Tier 1 框架 consistency 保留 (mirror V0.1.11 Ruby C hibernate decision + V0.1.5 Rust 0 PR retention),但下次 scout 默认行为变化 (paid org list 不再当 actionable scout target)。区分"user-explicit override 框架"(保留) vs "实际可投 candidate"(本轮验证 ≈ 0) — 框架不撤但实证收紧。
+- **#16 PR-level bounty 新分类** = pre-flight grep 命令永久变化 (issues/N vs pull/N 二元区分),不是 one-off 观察。本轮验证 4 个 100% Rewarded stale,识别成本 (grep 一次正则) 远低于深查成本 (gh pr view + 状态判断)。同质 V0.1.7 takeaway #10 stale 信号但维度正交 (state stale vs URL pattern stale),并行存在不冲突。
+- **#17 auto-close swarm 新 poison 模式** = 与 keephq 高奖金抢占失控池 (V0.1.6 takeaway re-confirm) **同质但 vector 不同** — keephq = 高奖金引人, swarm = 低奖金 + AI 化 + auto-close。识别信号四件 (5+ closed PR / AI reply / maintainer 沉默 / bot 警告) 任三同满即跳。这个 vector 在 LLM-coding 后时代会扩散 (低 stakes bounty + AI swarm 是结构性现象,不是 coolify 独有), 早识别避免下一轮在 mastra/twentyhq 撞同坑。
+- **#18 Algora 平台 sync delay 结构性 quantification** — V0.1.7 takeaway #10 首次发现 24-72h delay (zed#4440), V0.1.12 量化 "新 candidate 出现率 ≈ stale candidate 残留率" (24h +7 但 100% abort)。结构性而非 outlier — 含义: 单纯依赖 algora.io 平台 ground truth 的 scout 长期 ≈ 0 net candidate, 必须组合 V0.1.4 mode (paid org unassigned bug 池) 才能 sustain merge cadence。本轮 mastra direct cap 已达暂不可投, 等 #15904/#15934 review 解锁。
+
+**Step-0 subagent 审核** (1 round): subagent (ab980afa7fff7cdf8) audit 给 portfolio snapshot + active gates + scan priorities (mastra > TS/Python sweep > PHP/Scala/Java 试水 > Rust hibernate 维持) + 4 risk warnings (mastra cap 已达 / 3-file mutual-ref drift / archive stale 类持续 / persona boundary)。**全采纳并扩展**: scan priorities (1) mastra direct cap 验证后明确不能投 (subagent 提示一致); (2) Scala ZIO 池试水实测 8/8 R6+R9 + (3) PHP coollabsio 池试水实测 10/10 R9+R2+R4 — 触发了 #15/#17 framework-level takeaway (subagent 没预测,因没 fetch issue 内容); (4) PR-level bounty 4 个识别 = subagent 没列入 watch-for 但本轮 grep 抓出 → #16 新分类。Subagent watch-for #1 "3-file mutual-ref drift 是最高风险" 全采纳 (本轮 5 abort row + 4 takeaway + WORKFLOW 2 新 bullet + 1 caveat 修改 严格 mirror)。
+
+**Diff vs V0.1.11**:
+- `shipped-log.md`: stats counter +1 dry round + 5 abort rows + 1 takeaway section (#15/#16/#17/#18)
+- `WORKFLOW.md`: coolify L191 行 append V0.1.12 caveat + 2 新 poison bullets (PR-level bounty + auto-close swarm)
+- `CHANGELOG.md`: this entry
+
+**Open follow-up state** (carried forward from V0.1.11):
+- `mastra-ai/mastra#15904` awaiting review (5-day cadence, watchdog due 2026-05-04 — 4 天后)
+- `mastra-ai/mastra#15934` awaiting review (round-2 feedback handled at V0.1.10, last update 2026-04-29 19:xx, 5-day cadence due 2026-05-04)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog **永久 disable** (V0.1.11)
+- **Cannibalization risk**: mastra-ai org direct cap = 2 (#15904 + #15934 OPEN) + 1 PR-into-PR (grundmanise#1) — 第 3 个 mastra-ai PR 在 #15904 / #15934 任一 review/merge/close 之前不能开 (V0.1.11 carry-forward unchanged)
+- Ruby Tier 1 hibernate state (V0.1.11) carry-forward
+- **NEW V0.1.12 implications**:
+  - 下轮 scout 默认优先级 = V0.1.4 mode (mastra unassigned bug pool, 等 #15904/#15934 review 解锁后) > Algora 平台 sweep。Algora 平台 sweep 价值降级为"结构性变化检测器"(新 paid org 出现 / known poison 解锁 / 新 swarm pattern 验证), 不再当 actionable candidate 来源。
+  - Pre-flight grep 必区分 `/issues/N` vs `/pull/N` (#16) — 永久流程变化,不是 one-off。
+  - 任 issue 验"swarm poison" 4 件信号 (#17) — 加入 evaluation 流程。
+  - V0.1.4 mode 探 PHP coollabsio unassigned bug 池 (R8 健康) 是有效 fallback 但 0-exp 40-80h ramp-up 投入风险待 user 显式决策。
+
+**Revert path**: `git revert <V0.1.12 sha>` 恢复三 git-tracked 文件。本 entry 不引入新外部 PR / commit / 远程操作, 仅 markdown log + workflow rule update,revert 完全本地。Tier 1 框架 (V0.1.5/V0.1.8) 不动 — 本轮**不撤** Java/PHP/Scala/Ruby unlock,只是评估"实际可投 candidate ≈ 0"为事实记录。如未来需要撤 V0.1.8 unlock,需 fresh user-explicit decision (按 `feedback_user_overrides.md` 框架)。
+
+---
+
 ## V0.1.11 — 2026-04-29 夜深 — maybe-finance archived 永久跳 (Ruby Tier 1 选 C hibernate, mirror Rust V0.1.5 precedent)
 
 **Trigger**: User said "现在我们有几个 bounty" → discovered V0.1.7 sweep 数据 24h 内已过期: per-org page 实测 maybe-finance 0→5 active bounty (V0.1.6 takeaway #7 watchdog 触发条件首次满足) → user said "要" 扫这 5 个 → Step 0 subagent 第一轮就给 STOP: `gh api repos/maybe-finance/maybe` = `archived: true` + `pushedAt: 2025-07-24` (9 月零提交) + `hasIssuesEnabled: false`; verify 5 个 algora-listed bounty 全 stale: marketing#301 MERGED 2025-04-30 + maybe#2081 CLOSED 2025-04-18 (都是 1 年前 rewarded) + maybe#1718/1734/2077 410 Gone (issues disabled) → user said "你推荐哪个" 三选 (A 撤 Ruby Tier 1 / B 找新 Ruby paid org / C hibernate 不撤) → 推荐 C → user said "go".
