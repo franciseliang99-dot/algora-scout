@@ -1,5 +1,43 @@
 # CHANGELOG
 
+## V0.1.10 — 2026-04-29 夜 — #15934 round-2 review feedback handled (V0.1.4-mode pushback sub-pattern logged)
+
+**Trigger**: User said "扫描algora并查看邮件" → discovered jmzhang 14:24Z PR comment on #15934 proposing text-spans-as-exception to first-seen ordering + CodeRabbit 2 actionable. User said "由你决定" → analyzed jmzhang 论点 vs issue #15914 原文场景 / 现有测试 / conclusive-remarks 推演 → 三步全砍 → executed 路 ② (rebut + push test swap + outcome-focused changeset rewrite).
+
+**Action taken** (mastra side, 1 commit):
+- Branch `fix/build-messages-semantic-order` push `c4fab88..3e8d178`:
+  - `packages/core/src/loop/workflows/agentic-execution/build-messages-from-chunks.test.ts:84-86` swap expect 顺序 from `[Goodbye, Hello, world!]` (旧 text-end ordering) to `[Hello, world!, Goodbye]` (first-seen ordering) + comment 改为引 #15914 + 解释 t1 first-delta 早于 t2
+  - `.changeset/fix-build-messages-semantic-order.md` rewrite outcome-focused (去除 buildMessagesFromChunks/end-event/placeholder 实现细节, 保留 user-facing semantic effect + Closes #15914)
+- Commit `3e8d178` "chore: address review feedback on #15934 (test expectation + changeset)" (no Co-Authored-By, hard rule #5)
+- PR comment [4349505648](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4349505648) rebutting jmzhang text-spans 例外 with 3 evidence points + opt-in flag offer if maintainer cites concrete downstream consumer
+
+**Action taken** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md`: L24 #15934 row Notes 末尾 in-place append round-2 update (push SHA + reply ID + 3-evidence summary); new "Org-level takeaways (2026-04-29 夜 — V0.1.9 round-2 review pushback)" section + takeaway #13 (Issue-author review pushback 三步核对 + maintainer-拉入 末段模板)
+- `CHANGELOG.md`: this entry
+
+**Step-0 subagent 审核** (3 rounds): first round (路 ① vs 路 ② 决断) GAVE 路 ② with 4-point evidence chain (issue 场景全跨-type / step-start 正交 / conclusive 在 first-seen 下也对 / 现有测试是 bug 同源), 全采纳; second round (执行计划缺陷审核) FLAGGED 行号修正 (L72-87 / L84-85 specific) 采纳 + ERRONEOUSLY 主张 jmzhang 评论在 issue 不在 PR (verify 后确认在 PR via `gh api repos/.../issues/15934/comments` + message-id `pull/15934/c...`, 不采纳); third round (V0.1.10 log update 边界) RECOMMENDED 按计划 4 步 (takeaway-growth bump 符合 V0.1.6/V0.1.7 先例), 全采纳。
+
+**Diff vs V0.1.9**:
+- mastra fork: 1 commit `3e8d178` on `fix/build-messages-semantic-order` (test:84-86 swap + changeset rewrite)
+- mastra PR: 1 reply comment 4349505648
+- `shipped-log.md`: L24 in-place update + new takeaway section + #13
+- `CHANGELOG.md`: this entry
+
+**Why** the takeaway #13 is load-bearing: V0.1.4-mode 是新流程 (no-bounty bug-fix in already-friendly orgs), round-2 reviewer pushback 是首次出现的 sub-pattern。如果不固化"三步核对 + 末段 maintainer 拉入"模板, 下一次 V0.1.4-mode round 3+ 遇到同形 pushback 会重新发明轮子, 且容易在 evidence 不足时草率反驳或在 evidence 充足时无理由软化。固化后下次直接套。
+
+**Open follow-up state** (updated):
+- `mastra-ai/mastra#15934` **review-feedback handled** (push 3e8d178, reply 4349505648), still awaiting maintainer review (5-day cadence baseline 2026-04-29 夜 → watchdog due 2026-05-04 unchanged)
+- `mastra-ai/mastra#15904` awaiting review (5-day cadence, watchdog due 2026-05-04 unchanged)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog NOT scheduled
+- **Cannibalization risk** (V0.1.9 carry-forward): mastra-ai org 现 2 open PR + 1 PR-into-PR (grundmanise#1) = 上限 2 (PR-into-PR 不计 mastra-ai org cap)。第 3 个 mastra-ai PR 在 #15904 / #15934 任一 review/merge/close 之前不能开。
+- **NEW V0.1.10 implication**: round-2 pushback 处理后 jmzhang 可能进一步 reply (赞同 / 持续坚持例外 / 弃赛); maintainer 介入概率上升 (因为 thread 现在有 evidence-rich 决策点供 maintainer arbitrate)。下次 sync 时优先看 #15934 thread 状态。
+
+**Revert path**: `git revert <V0.1.10 sha>` 恢复 algora-scout 文件 (shipped-log.md L24 row + takeaway #13 + CHANGELOG entry)。Mastra fork commit `3e8d178` 是外部 push — revert 需 `cd /home/myclaw/oss-scout-work/mastra && git revert 3e8d178 && git push fork fix/build-messages-semantic-order` (用户决定; revert 后还要在 PR 上 reply 解释为什么撤回)。
+
+---
+
 ## V0.1.9 — 2026-04-29 — Third upstream mastra PR shipped (#15934 fixes #15914 buildMessagesFromChunks semantic order)
 
 **Trigger**: User said "下一步该做什么" post-V0.1.8 portfolio unlock, then "按你的推荐" → A (mastra unassigned bug pool round 2, V0.1.4 model). 30min scout: 25 unassigned bug-labeled issues → 5 candidates after R-cuts (Memory module avoid + effort:high + waiting + already-aborted) → 3 deep-scan (#15914 / #15288 / #15920) → #15914 viable (R-checklist all-pass except R6/R7 with mitigation).
