@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## V0.1.14 — 2026-05-01 早 — #15934 round-4 maintainer design pushback handled (V0.1.4-mode round 3 闭环 + 第 11 dry scan round)
+
+**Trigger**: User said "扫描algora并查看邮件" → Step 0 subagent (Plan 维度: 第 11 轮节奏判 + 邮件关联性预测 + gmail query 选词 + 不重复事项 + 风险预警) 推 V0.1.4-mode 优先 (Tier 1 sweep 净新增 = 0 跳)。Algora 平台 ground truth 第 1 页 10 issue (ZIO 8 + Twenty IMAP + Kyo #390 $500) **100% V0.1.13 已 abort** (净新增 = 0, V0.1.12 takeaway #18 持续 30+ 天验证)。**第 11 dry scan round**。同时 Gmail 查询命中 mastra #15934 5/1 10:28 TylerBarnes (mastra maintainer) PR-comment [4360652408](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4360652408) — round-4 真正 maintainer 进入 review (前 3 轮均 reporter jmzhang 闭环)。
+
+**Maintainer 提议** (auto-close on type change): "any reason we can't just push directly to an ordered array and not maintain separate tracking for different types of parts? if the array ends in text-delta (or some other delta) and a part besides text-end comes in, we can push a text-end, and then the next part"。
+
+**Action taken** (mastra side, 1 GitHub action):
+- PR 评论 reply [4361409484](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4361409484): multi-delta same-span 硬反例 (`text-delta(s1, "hello, ")` → `text-delta(s1, "world")` under auto-close 错误 split 成 `["hello, ", "world"]` 而非 `"hello, world"`) + 同 bisect 跨 reasoning interleaving 同 text span case (`text-delta(s1) → reasoning-start(s2) → reasoning-delta → reasoning-end → text-delta(s1)` 中 reasoning-start 触发 synthetic `text-end(s1)` 后 s1 第二 delta 进入新 part) + 引用既有 `should correctly separate interleaved text spans by ID` test 契约 (placeholder pattern 在 first-seen-delta 占 slot, end-event 填 slot, 唯一保留 same-span deltas 累积) + 末段 offer gate placeholder behind multi-delta check or refactor if maintainer cites single-delta-per-span consumer (与 V0.1.13 round-3 路 A 同 YAGNI 风格 — 不主动重写, 等 maintainer 给具体 consumer)。
+
+**Action taken** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md`: L24 #15934 row Notes 末尾 in-place append round-4 段 + L32 first-merge stats 计数 dry rounds 10 → 11 + V0.1.14 描述段
+- `CHANGELOG.md`: this entry
+
+**Why** 不另起 takeaway #19: round-4 maintainer pushback 是 V0.1.10 takeaway #13 (round-2 evidence-based reply) 框架在 maintainer 维度的延伸应用, 不是新模式发现。"反例 + offer-不重写" 路 A 与 V0.1.13 round-3 reply 路 A 同 YAGNI 风格 (差异: round-3 是 reporter acceptance 后 stand pat, round-4 是 maintainer pushback 后给反例不让步), 都是 "thread ball 转 maintainer + 不主动加 placeholder for imaginary case" — 同框架不同 phase。如未来出现 maintainer 给具体反例后我让步的复杂情况, 再起 takeaway 不晚。dry scan 计数 +1 (10→11) 但 takeaways 不变 (#18 V0.1.12 sync delay 结构性观察 30+ 天持续验证, 仍不需新 entry)。
+
+**Step-0 subagent 审核** (1 round, 100% 采纳 0 分歧):
+- subagent (a155bd64ba33bc96a) 5 问回答全 corroborate 三方数据 — Q1 跳 Tier 1 sweep 进 V0.1.4-mode (Algora 10/10 V0.1.13 已 abort 验证) / Q2 邮件 = GitHub PR review notification (TylerBarnes 5/1 design pushback 命中) / Q3 gmail query 选词命中 #15934 12+ comments / Q4 不重复 V0.1.12 abort + Tier 1 actionable + HTML grep PR-level 区分 (本轮全避免) / Q5 scope 锁邮件 reply 不开新 PR (mastra cap=2 portfolio rule 一致)
+- 实际执行与 subagent 5 问预测 100% 一致 — 验证 5 步流程 Step 0 subagent 在 V0.1.4-mode 已建立稳态后是 ROI 高的 audit (相比 V0.1.12 等 framework-discovery 轮 takeaways 由实测发现, V0.1.13/V0.1.14 portfolio-driven 轮 subagent 预测命中率高, 因 reply tactics 已 codified)
+
+**Diff vs V0.1.13**:
+- mastra side: 1 reply comment 4361409484 (无新 commit/branch/push)
+- `shipped-log.md`: L24 in-place append round-4 段 + L32 dry round 计数 10→11 + V0.1.14 描述段
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (无新规则发现; V0.1.12 三 bullet + V0.1.13 maintainer-acceptance 模板均持续生效)
+- 不动 evaluation-checklist.md (R/G flag set 与 round-4 pushback 处理正交, CLAUDE.md 3-file mutual-ref 守恒)
+
+**Open follow-up state** (updated):
+- `mastra-ai/mastra#15934` **round-4 maintainer pushback handled**, thread ball 转 maintainer (TylerBarnes 已 design-engaged → 比 round-3 状态更可能进 next review)。5-day cadence baseline 2026-05-01 早 → watchdog due 2026-05-06
+- `mastra-ai/mastra#15904` awaiting review unchanged (5-day cadence due 2026-05-04 — 已 OPEN 2 天, reviewDecision=`REVIEW_REQUIRED` 但 reviewRequests=[], 等 mastra triage assign reviewer)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active (carry-forward V0.1.13)
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active (carry-forward V0.1.13)
+- maybe-finance active-bounty watchdog **永久 disable** (V0.1.11 carry-forward)
+- **Cannibalization risk** unchanged: mastra-ai org direct cap = 2 (#15904 + #15934 OPEN) + 1 PR-into-PR (grundmanise#1)
+- Ruby Tier 1 hibernate state (V0.1.11 carry-forward)
+- **V0.1.14 implication**: round-4 maintainer 第一次 design-engaged 后 thread ball 在 maintainer 一侧的 next-action 概率最高 (TylerBarnes 已表态等 weigh 反例); 若 5 day 内无 maintainer 回应, 触发 watchdog 看是否需 nudge 或 maintainer 已 disengage
+
+**Revert path**: `git revert <V0.1.14 sha>` 恢复 algora-scout 文件 (shipped-log L24 round-4 段删 + L32 dry rounds 计数 11→10 + V0.1.14 描述段删 + CHANGELOG entry 删)。Mastra reply 4361409484 是已 push 公开 GitHub action — revert 需手动 `gh api -X DELETE /repos/mastra-ai/mastra/issues/comments/4361409484` 删评论 (但删评论会留 GitHub edit 痕迹/邮件已 delivery, 实际不可逆); 推荐 revert 仅文件不撤 GitHub action。
+
+---
+
 ## V0.1.13 — 2026-04-30 早 — #15934 round-3 reporter acceptance handled (V0.1.4-mode round 2 闭环 + 第 10 dry scan round)
 
 **Trigger**: User said "扫描algora" → Step 0 subagent 给 priorities (poison list 先锁 / Tier 1 lift unlock≈0 跳 / 横向 paying-org no-bounty + freshness window + portfolio nudge)。平台 ground truth 15 GitHub-issue + 4 PR-level **100% V0.1.12 已 abort**(净新增 = 0); per-org 复查 mastra-ai 0 + twentyhq 2/2 CLOSED+Rewarded stale + CapSoftware/Cap 5/5 CLOSED/MERGED+Rewarded stale (V0.1.7 takeaway #10 24-72h sync delay 同质)。**第 10 dry scan round**。同时发现 portfolio 内 mastra #15934 jmzhang round-3 评论 (2026-04-30 05:28Z) 引 Gemini Vercel AI SDK chunk lifecycle 综述 → **明确 acceptance + 自标 imaginary edge case 可 skip**, 不是 push back。User said "你直接 reply" → 路 A 执行。
