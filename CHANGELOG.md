@@ -27,7 +27,7 @@
 - 不动 evaluation-checklist.md (R/G flag set 与 round-4 pushback 处理正交, CLAUDE.md 3-file mutual-ref 守恒)
 
 **Open follow-up state** (updated):
-- `mastra-ai/mastra#15934` **round-4 maintainer pushback handled**, thread ball 转 maintainer (TylerBarnes 已 design-engaged → 比 round-3 状态更可能进 next review)。5-day cadence baseline 2026-05-01 早 → watchdog due 2026-05-06
+- `mastra-ai/mastra#15934` **round-4 maintainer pushback handled**, thread ball 转 maintainer (TylerBarnes 已 design-engaged → 比 round-3 状态更可能进 next review)。5-day cadence baseline 2026-05-01 早 → watchdog **`trig_0135vtMdNwShaLBmhPazoN4h` one-time scheduled 2026-05-06T17:00:00Z** (read-only check, sonnet-4-6, source = algora-scout public, ABORT 条件 codified: merged / closed-rejected / TylerBarnes 回应 / 其他 mastra-org member 介入 / 5-day silent → user 决定 next round)
 - `mastra-ai/mastra#15904` awaiting review unchanged (5-day cadence due 2026-05-04 — 已 OPEN 2 天, reviewDecision=`REVIEW_REQUIRED` 但 reviewRequests=[], 等 mastra triage assign reviewer)
 - `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active (carry-forward V0.1.13)
 - `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active (carry-forward V0.1.13)
