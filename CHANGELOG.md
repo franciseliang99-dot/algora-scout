@@ -1,5 +1,45 @@
 # CHANGELOG
 
+## V0.1.13 — 2026-04-30 早 — #15934 round-3 reporter acceptance handled (V0.1.4-mode round 2 闭环 + 第 10 dry scan round)
+
+**Trigger**: User said "扫描algora" → Step 0 subagent 给 priorities (poison list 先锁 / Tier 1 lift unlock≈0 跳 / 横向 paying-org no-bounty + freshness window + portfolio nudge)。平台 ground truth 15 GitHub-issue + 4 PR-level **100% V0.1.12 已 abort**(净新增 = 0); per-org 复查 mastra-ai 0 + twentyhq 2/2 CLOSED+Rewarded stale + CapSoftware/Cap 5/5 CLOSED/MERGED+Rewarded stale (V0.1.7 takeaway #10 24-72h sync delay 同质)。**第 10 dry scan round**。同时发现 portfolio 内 mastra #15934 jmzhang round-3 评论 (2026-04-30 05:28Z) 引 Gemini Vercel AI SDK chunk lifecycle 综述 → **明确 acceptance + 自标 imaginary edge case 可 skip**, 不是 push back。User said "你直接 reply" → 路 A 执行。
+
+**Action taken** (mastra side, 2 GitHub actions):
+- PR 评论 reply [4358004776](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4358004776): 致谢 jmzhang 引 Gemini + 论 `addStartStepPartsForAIV5`/`step-start` 与 unified rule consistency + 同意 skip imaginary case (first-seen vs last-seen 都不能 pin 跨 tool span split + chunk-level fragmentation 是另机制等 actual repro) + 末段 "Leaving the PR as-is for maintainer review" 标 thread 暂停
+- thumbs-up reaction 352557148 加到 jmzhang round-3 评论 4349923241 增信号
+
+**Action taken** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md`: L24 #15934 row Notes 末尾 in-place append round-3 acceptance update (Round-3 jmzhang 评论 ID + Gemini 论点 + acceptance 引用 + reply ID + 路 A 执行 + thumbs-up reaction ID + thread ball 转 maintainer)
+- `CHANGELOG.md`: this entry
+
+**Why** 不另起 takeaway #19: round-3 acceptance 是 V0.1.10 takeaway #13 模板 (round-2 三步核对 + evidence-based reply) 的成功验证, 不是新模式发现。round-3 acceptance 后路 A (致谢 + 同意 skip + 不动 PR) 是 YAGNI 直接应用, 无需独立 takeaway。如未来出现 reporter 接受后 maintainer 反对 / reporter 接受后又翻转的复杂情况, 再起 takeaway 不晚。dry scan 计数 +1 (9→10) 但 takeaways 不变 (#18 V0.1.12 sync delay 结构性观察持续验证, 不需新 entry)。
+
+**Step-0 subagent 审核** (3 rounds, 全采纳): 
+- Round 1 (Plan subagent): 先锁 poison list 再扫 (执行) + 不再扫 V0.1.12 已验 unlock≈0 Tier 1 lifted 语言 (本轮避开) + 横向 paying-org no-bounty pool / freshness window / portfolio nudge 三方向 (本轮覆盖前两方向; portfolio nudge = #15934 round-3 闭环为最高 ROI)
+- Round 2 (general-purpose subagent): jmzhang round-3 = acceptance 判定 (3 强证据: "can fix the bug" / "should be the expected behavior" / "imaginary ... skip for now") + 路 A 推荐 (4 evidence: reporter 已自给 skip rationale / Vercel SDK 当前协议无 interleaving / 路 B "known limitation" 反向放大 reviewer risk / 路 C 实测损害 unified-rule clean diff) + in-portfolio 闭环优先级高于 scout deliverable (time-sensitive vs scout 0 candidate)
+- Round 3 (general-purpose subagent draft audit): 草稿 v2 → 两处改 (Q3 删冗余末句 "Not adding a placeholder for it preemptively" 与前句同义 + Q4 末段精简为 "Leaving the PR as-is for maintainer review" 删 "Will" 和 "and wait"); 实际 push 版本 final draft 全采纳两处改
+
+**Diff vs V0.1.12**:
+- mastra side: 1 reply comment 4358004776 + 1 reaction 352557148 (无新 commit/branch/push)
+- `shipped-log.md`: L24 in-place append round-3 acceptance 段
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (无新规则发现, V0.1.12 三 bullet 持续生效)
+- 不动 evaluation-checklist.md (R/G flag set 与 round-3 acceptance 处理正交)
+
+**Open follow-up state** (updated):
+- `mastra-ai/mastra#15934` **round-3 reporter acceptance handled**, thread ball 转 maintainer (5-day cadence baseline 2026-04-30 早 → watchdog due 2026-05-05 unchanged from V0.1.12 2026-05-04 — 微调 +1 day)
+- `mastra-ai/mastra#15904` awaiting review unchanged (5-day cadence due 2026-05-04)
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` daily 18:00 UTC active
+- maybe-finance active-bounty watchdog **永久 disable** (V0.1.11 carry-forward)
+- **Cannibalization risk** unchanged: mastra-ai org direct cap = 2 (#15904 + #15934 OPEN) + 1 PR-into-PR (grundmanise#1)
+- Ruby Tier 1 hibernate state (V0.1.11 carry-forward)
+- **NEW V0.1.13 implication**: round-3 acceptance 后下次 maintainer review 概率上升 (thread 现有 reporter explicit endorsement 供 maintainer arbitrate, 比 round-2 evidence-only 状态强); 若 5 day 内无 maintainer 介入, 触发 watchdog 看是否需 nudge
+
+**Revert path**: `git revert <V0.1.13 sha>` 恢复 algora-scout 文件 (shipped-log L24 round-3 段删 + CHANGELOG entry 删)。Mastra reply 4358004776 + thumbs-up 352557148 是已 push 公开 GitHub action — revert 需手动 `gh api -X DELETE` 删 reaction + reply 评论 (但删评论会留 GitHub edit 痕迹/邮件已 delivery, 实际不可逆); 推荐 revert 仅文件不撤 GitHub action。
+
+---
+
 ## V0.1.12 — 2026-04-30 早 — Tier 1 lift verification dry scan (V0.1.8 unlock 实测 paid org candidate ≈ 0; auto-close swarm + PR-level bounty 新分类入册)
 
 **Trigger**: User invoked `/effort max` + "扫描algora" → V0.1.8 PHP/Scala/Java/Ruby Tier 1 lift 后**首次系统性 paid org per-org 验证轮**。Step 0 subagent 给 portfolio snapshot + scan priorities + watch-for: (1) ZIO/coollabsio 池试水, (2) PR-level bounty 类需识别, (3) mastra direct cap 已达。全平台 HTML grep ground truth 21 个 + coollabsio per-org page 10 个 + Java/Python paid org Algora 404 验证 → 100% abort,第 9 dry scan round。
