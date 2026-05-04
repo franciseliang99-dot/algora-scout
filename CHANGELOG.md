@@ -1,5 +1,65 @@
 # CHANGELOG
 
+## V0.1.15 — 2026-05-04 — #15934 round-5 maintainer supersede 软落地 reconcile + 第 12 dry scan round + watchdog disable + 新 status code `closed-superseded`
+
+**Trigger**: User said "扫描algora" → Step 0 subagent (general-purpose a30fcca0c68a8fcd2) audit portfolio + dry scan priority — 推荐 #15904 5-day cadence today read-only check 优先 / 次选 V0.1.4-mode 横向探非 mastra paid org。**漏关键事实 — #15934 已 CLOSED 2026-05-01** (subagent 用 shipped-log frozen state 推断 OPEN, 未 fetch 最新 PR state); 修正后采纳 watchdog-priority 取向但 #15934 状态变化前置。Algora 平台 ground truth 17 GitHub-issue + 4 PR-level **100% V0.1.7~V0.1.14 已 abort 或 archestra/Cap-go/PX4 整 org poison fall-through** (净新增可竞争 = 0,V0.1.12 takeaway #18 第 4 轮持续 30+ 天验证)。**第 12 dry scan round**。**核心发现**: V0.1.14 commit b905490 (5/1 20:16Z) 提交在 round-5 acceptance (5/1 20:13Z) 之后 3 min,V0.1.14 follow-up b66c2ac (5/1 20:51Z) 在 PR 已 CLOSED 后 38 min 仍 logged stale watchdog — V0.1.14 author 未刷新 GitHub 漏看 round-5 整轮。
+
+**Round-5 sequence** (V0.1.14 commit timing 漏看):
+- 2026-05-01 20:05Z TylerBarnes [4361373719](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4361373719): "superseded by mastra-ai/mastra#16073 thanks for the work here though! ❤️"
+- 2026-05-01 20:12Z 我 reply [4361409484](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4361409484): multi-delta same-span counter-example (实际答 round-4 design pushback "separate tracking" question, 但发于 supersede 通知 7 min 后 author 未刷新 incoming notification, 同 reply 也 V0.1.14 引用为 round-4 reply)
+- 2026-05-01 20:13Z TylerBarnes [4361416110](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4361416110): "all good, I was misunderstanding some things, but #16073 looks like it achieves the same thing in a slightly cleaner way so lets go with that one" — technical acceptance + maintainer 选 internal-cleaner 实现 (#16073)
+
+**Outcome `closed-superseded`** (V0.1.15 新 status code): fix 经 #16073 landed (TylerBarnes explicitly 引用 "achieves the same thing"), cold-account 获 maintainer-acknowledged technical contribution 公开记录, 但 payout/credit 给 #16073 internal author, my PR closed 0 merge。**与 closed-rejected 区别**: closed-rejected = fix lost (open-webui #24045/#24046 silent close 模式); supersede = fix landed via 内部 PR + author 论点 publicly acknowledged。
+
+**Action taken** (mastra side, 0 新 GitHub action — round-5 已在 V0.1.14 commit 后自然闭环, 本轮无新 mastra 操作)
+
+**Action taken** (algora-scout side, 4 git-tracked files + 1 RemoteTrigger):
+- `shipped-log.md` (5 处编辑):
+  - L7-15 status codes 段加 `closed-superseded` 新 code (区别于 closed-duplicate 的 contributor-side dup 语义,新 code = maintainer-side 内部 PR 接管 fix); closed-duplicate 描述 clarify 为 "another contributor's prior PR (R2 same-day catch)"
+  - L24 #15934 row 状态 `open` → `closed-superseded`,Notes 末尾 in-place append round-5 reconcile 段 (V0.1.14 timing miss + sequence 3 comment IDs + outcome 解释 + watchdog disable)
+  - First-merge stats 段:dry rounds 11 → 12 + V0.1.15 描述 + 新 PRs closed-superseded 行计数 1 (Tier-1 PR-credibility 独立计数, 不计入 first-merge counter)
+  - Aborted targets 表加 1 合并 row (archestra #3836 + #4076 V0.1.15 平台新出现 → V0.1.6 整 archestra org R4 poison fall-through, subagent flag 不分 2 行)
+  - Org-level takeaways 加 #19 "round-5 maintainer supersede 模式" (4 sub-bullet: closed-rejected 区别 / R5/R17 区别 / 新 status code / 三步反驳法验证 / V0.1.14 timing 元 lesson / next scout 应用)
+- `evaluation-checklist.md` "Documented failures" 段加 mastra #15934 supersede 第 1 catch bullet (subagent flag 的 mutual-ref drift 防御 — CLAUDE.md 项目级规则要求 shipped-log "Documented failures" 与 evaluation-checklist mirror, 否则三文件 mutual-ref 漂移)
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (supersede 不是 abort pattern, 不增 Hard rules / Known poison; 不是新 R 红旗; takeaway #19 是 outcome 模式发现 不是 scout-time gate 变化)
+- RemoteTrigger `trig_0135vtMdNwShaLBmhPazoN4h` enabled `true` → `false` (PR 已 CLOSED, 5/6 17:00Z fire 无意义)
+
+**Why** takeaway #19 是 load-bearing,不是 routine outcome log:
+- supersede ≠ closed-rejected: 本质语义不同 (fix landed via 内部 PR vs fix lost) → 状态码必须分开 (V0.1.15 新增 `closed-superseded`)
+- supersede vs R5/R17 区别 (关键判断点): R5/R17 应跳 (lock prevents merge); supersede 应继续投 (author 论点 strength 公开记录) — 否则下次 scout 看见 "maintainer wants to do it themselves" 信号会误判跳掉
+- 三步反驳法 (V0.1.10 takeaway #13) 验证: 框架对 maintainer 也有效不是只对 reporter — round-4 TylerBarnes auto-close design pushback 被 multi-delta same-span 反例 (issue-coverage / existing-test / semantics-under-unified-rule 三步) 推回 → maintainer 主动 "I was misunderstanding" → 选 internal-cleaner 实现 supersede。框架范围扩大已记录
+- "soft win" Tier-1 PR-credibility 信号: maintainer-engaged + acceptance 公开记录是简历叙事核心 (比 silent merge 强), first-merge counter 不动但独立计数有 1 → 简历可引 "TylerBarnes (mastra maintainer) acknowledged my technical analysis at PR #15934 round-5"
+- V0.1.14 commit timing 元 lesson: shipped-log 涉及 PR 行 update 前必跑 `gh pr view --json state,updatedAt`, 否则 in-flight 状态被 frozen 进 commit → V0.1.14 漏看 round-5 是因 author 未刷新, 防御性 pre-commit checklist 已 codified 进 takeaway #19
+
+**Step-0 subagent 审核** (2 round, 全采纳):
+- Round 1 (general-purpose subagent a30fcca0c68a8fcd2): portfolio snapshot + dry scan 推荐 — 首选 #15904 5-day cadence today read-only check / 次选 V0.1.4-mode 横向探非 mastra paid org。**漏关键事实 — #15934 已 CLOSED 2026-05-01** (subagent 没 fetch 最新 PR state, 用 shipped-log frozen state 推断 OPEN); 修正后采纳 watchdog-priority 取向但 #15934 状态变化前置。元 lesson: subagent 受 shipped-log 静态描述 prompted 时易 inherit frozen state — 要给 subagent 明示 "fetch 最新 PR state, 不依赖 shipped-log".
+- Round 2 (general-purpose subagent a7a1168b26d6abb72): V0.1.15 maintenance plan 审核 — 7 改进点 (新 status code 不塞 closed-rejected / archestra 1 合并 row 不分 2 / takeaway #19 写 / evaluation-checklist Documented failures mirror / RemoteTrigger 不 CronDelete / WORKFLOW.md 不动 confirm / mutual-ref drift 防御) 全采纳。识别 mutual-ref drift 风险: evaluation-checklist Documented failures 段需 mirror 否则 CLAUDE.md 项目级 3-file mutual-ref 漂移 — 主进程差点漏掉,subagent 救回。
+
+**Diff vs V0.1.14**:
+- mastra side: 0 (round-5 已在 V0.1.14 commit 后自然闭环)
+- `shipped-log.md`: 5 处编辑 (status codes / L24 round-5 reconcile / stats counter+dry round / archestra abort row / takeaway #19)
+- `evaluation-checklist.md`: 1 bullet append (Documented failures 9 项 → 10 项, mastra #15934 supersede 第 1 catch)
+- `CHANGELOG.md`: this entry
+- RemoteTrigger 1 个 disable (`trig_0135vtMdNwShaLBmhPazoN4h`)
+- 不动 WORKFLOW.md
+
+**Open follow-up state** (updated):
+- `mastra-ai/mastra#15904` awaiting review (5-day cadence baseline 2026-04-29 → due 2026-05-04 today, OPEN 5 day, REVIEW_REQUIRED, reviewRequests=[], 0 maintainer 触碰 — user 决定 polite ping vs silent wait, V0.1.15 commit 不动 ping)
+- `mastra-ai/mastra#15934` **closed-superseded by #16073** (round-5 软落地, technical acceptance preserved, payout lost — V0.1.15 reconcile 完成)
+- `mastra-ai/mastra#16073` (TylerBarnes 内部 supersede PR) — 不在 portfolio (我无 commit), 但语义 fix 包含我的 #15934 contribution (TylerBarnes 5/1 20:13 explicitly 引用 "achieves the same thing"); 跟踪监 merge 状态作 simulation 用, 不计入 cold-account portfolio
+- `grundmanise/mastra#1` watchdog `trig_01VmjHWi8uLW5Zxkc1VUPry2` Monday 17:00 UTC active (今日 5/4 = Monday, fire today; OPEN 6 天无更新 = 接近 STALE 阈值 7 天, 下次 fire 可能命中 stale 分支 → 推荐 polite ping 或 pivot to direct upstream PR)
+- `formatBlock` follow-up trigger `trig_013bUbcqV4jaEyJzdHALTPTD` 已 auto-disabled (`auto_disabled_repo_access`, V0.1.14 carry-forward, 不影响)
+- maybe-finance active-bounty watchdog **永久 disable** (V0.1.11 carry-forward)
+- `trig_0135vtMdNwShaLBmhPazoN4h` (#15934 watchdog) **disabled by V0.1.15** (PR CLOSED, 2026-05-06 fire 无意义)
+- mastra direct cap: **解锁 1/2** (#15904 OPEN, #15934 closed-superseded) — 理论可投 V0.1.4-mode round 5 mastra unassigned bug 池, 但本轮不深扫 (user 未明示, scope 锁原始扫描请求)
+- Ruby Tier 1 hibernate state (V0.1.11 carry-forward)
+- **V0.1.15 implication**: cold-account "soft win" 模式首次记录 (V0.1.10 takeaway #13 框架在 maintainer pushback 维度落地证据); 第 12 dry round 持续验证 V0.1.12 takeaway #18 (sync delay 结构性 0 net) — 无新 takeaway 类型涌现 (#19 是 outcome 类型 unique 类别新增, 不增 R/G flag); 下次 scout 默认优先级不变 (V0.1.4-mode > Algora 平台 sweep)
+
+**Revert path**: `git revert <V0.1.15 sha>` 恢复 algora-scout 文件 (shipped-log 5 处 + evaluation-checklist 1 bullet + CHANGELOG entry)。RemoteTrigger disable 撤回需 `RemoteTrigger update trigger_id=trig_0135vtMdNwShaLBmhPazoN4h body={"enabled": true}` (但 PR CLOSED 后 watchdog 仍无意义, revert 不必要)。Mastra side 本轮无 GitHub action — 无外部 revert 需求。
+
+---
+
 ## V0.1.14 — 2026-05-01 早 — #15934 round-4 maintainer design pushback handled (V0.1.4-mode round 3 闭环 + 第 11 dry scan round)
 
 **Trigger**: User said "扫描algora并查看邮件" → Step 0 subagent (Plan 维度: 第 11 轮节奏判 + 邮件关联性预测 + gmail query 选词 + 不重复事项 + 风险预警) 推 V0.1.4-mode 优先 (Tier 1 sweep 净新增 = 0 跳)。Algora 平台 ground truth 第 1 页 10 issue (ZIO 8 + Twenty IMAP + Kyo #390 $500) **100% V0.1.13 已 abort** (净新增 = 0, V0.1.12 takeaway #18 持续 30+ 天验证)。**第 11 dry scan round**。同时 Gmail 查询命中 mastra #15934 5/1 10:28 TylerBarnes (mastra maintainer) PR-comment [4360652408](https://github.com/mastra-ai/mastra/pull/15934#issuecomment-4360652408) — round-4 真正 maintainer 进入 review (前 3 轮均 reporter jmzhang 闭环)。
