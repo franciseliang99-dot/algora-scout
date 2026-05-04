@@ -1,5 +1,38 @@
 # CHANGELOG
 
+## V0.1.16 — 2026-05-04 follow-up — #15904 A-modified neutral bump posted (V0.1.14 watchdog template, no @-mention)
+
+**Trigger**: V0.1.15 commit d6e5431 落地后 user 选 #15904 5-day cadence ping option A (推荐 @CalebBarnes 因其是 #15454 author = Francis 修的 regression 引入者) → Step 0 subagent abb69757207ba9179 在 fetch 数据时反转原 A 假设: `gh api orgs/mastra-ai/public_members/CalebBarnes` 返 204 = **Caleb 是 mastra-ai org public member** (company="Mastra", 30 天内 13 commits 进 mastra), 不是 external contributor → @-mention 落入 V0.1.14 watchdog `trig_01SPBzc9r7NrGVXEH8NSGeAx` 原 prompt 明令 NO @-mentions 原始 scope (cold-account 不主动召唤 maintainer 注意, 与是否 "contextual" 无关, 身份才是判据) → veto 原 A 推 A-modified (V0.1.14 watchdog template neutral bump no @-mention)。User confirmed A-modified。
+
+**Action** (mastra side, 1 GitHub action):
+- PR 评论 [4372148497](https://github.com/mastra-ai/mastra/pull/15904#issuecomment-4372148497) (post 前 fetch 最新 state ageMinutes=7670 0 变化 → V0.1.15 takeaway #19 sub-bullet 5 pre-action checklist 生效): "Friendly ping — happy to address any review feedback when reviewers have bandwidth. The PR body has the full repro + token-boundary diff for context."
+
+**Action** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md`: L23 #15904 row Notes 末尾 in-place append V0.1.16 ping 段 (silent 5 day stats + Caleb 反转 verified via HTTP 204 + comment ID + 5-day cadence reset baseline 2026-05-04 → next manual eval 2026-05-09 if silent, 不创建 RemoteTrigger)
+- `CHANGELOG.md`: this entry
+
+**Why** 不增 takeaway #20: 本轮 V0.1.10 #13 (3-step rebuttal framework) + V0.1.14 watchdog NO @-mentions + V0.1.15 #19 (pre-action `gh pr view` checklist) 三 framework 落地应用, 不是新模式发现。Caleb 身份反转 (subagent 拿 HTTP 204 反转主进程错误推荐) 是 V0.1.15 #19 sub-bullet 5 pre-action checklist 的语义扩展 — pre-action 不只 `gh pr view` 看 state, 还应 `gh api orgs/<org>/public_members/<user>` 核 mention-target 身份; 已 implicit in #19 范畴, 不另起 entry, 但**记下供下次 ping 类决定参考**。
+
+**Step-0 subagent 审核** (2 round in V0.1.16 cycle, 全采纳):
+- Round 1 (abb69757207ba9179, A-original veto): 5 问回答 (Q1 Francis 历史 @-mention precedent / Q2 Caleb HTTP 204 反转身份 / Q3 #15904 5-day silent 0 变化 / Q4 V0.1.14 watchdog template draft / Q5 asymmetric risk @-mention 第 2 次 closed-superseded vs neutral 0 negative) → veto 原 A 推 A-modified, 主进程 100% 采纳推 push 给 user 重新 confirm
+- Round 2 (a2d7cb7c1417215c2, final text + procedure + pre-post staleness): 3 项 GO (text 措辞 cold-account 低 status posture 匹配 / procedure `gh pr comment` 正确 / pre-post staleness fetch 必跑 — 实际 fetch 显示 ageMinutes=7670 0 变化, GO post)
+
+**Diff vs V0.1.15**:
+- mastra side: 1 comment 4372148497 (无新 commit/branch/push)
+- `shipped-log.md`: 1 处 in-place append (L23 #15904 Notes 末尾)
+- `CHANGELOG.md`: this entry
+- 不动 evaluation-checklist (本轮 ping 是 #19 框架应用, 不增 R/G flag, 不增 Documented failures bullet)
+- 不动 WORKFLOW.md (不增 Hard rules / Known poison; pre-action mention-target identity check 已隐含 #19)
+- 不动 RemoteTrigger (无新 watchdog 创建; V0.1.15 disable 后无 active mastra watchdog — 下次 user 触发 scout 自然检查或 manual `gh pr view` 即可)
+
+**Open follow-up state** (delta vs V0.1.15):
+- `mastra-ai/mastra#15904` **A-modified bump posted 2026-05-04**, 5-day cadence reset baseline 2026-05-04 → next eval 2026-05-09 if silent; state=OPEN, reviewDecision=REVIEW_REQUIRED, reviewRequests=[], 0 maintainer 触碰
+- 其他 PR / watchdog 状态 carry-forward V0.1.15 unchanged
+
+**Revert path**: `git revert <V0.1.16 sha>` 恢复 algora-scout 文件 (shipped-log L23 V0.1.16 段删 + CHANGELOG entry 删)。Mastra comment 4372148497 是 public GitHub action — `gh api -X DELETE /repos/mastra-ai/mastra/issues/comments/4372148497` 删评论但留 GitHub edit 痕迹 + 邮件 notification 已 delivered, 实际不可逆 → revert 仅文件不撤 GitHub action。
+
+---
+
 ## V0.1.15 — 2026-05-04 — #15934 round-5 maintainer supersede 软落地 reconcile + 第 12 dry scan round + watchdog disable + 新 status code `closed-superseded`
 
 **Trigger**: User said "扫描algora" → Step 0 subagent (general-purpose a30fcca0c68a8fcd2) audit portfolio + dry scan priority — 推荐 #15904 5-day cadence today read-only check 优先 / 次选 V0.1.4-mode 横向探非 mastra paid org。**漏关键事实 — #15934 已 CLOSED 2026-05-01** (subagent 用 shipped-log frozen state 推断 OPEN, 未 fetch 最新 PR state); 修正后采纳 watchdog-priority 取向但 #15934 状态变化前置。Algora 平台 ground truth 17 GitHub-issue + 4 PR-level **100% V0.1.7~V0.1.14 已 abort 或 archestra/Cap-go/PX4 整 org poison fall-through** (净新增可竞争 = 0,V0.1.12 takeaway #18 第 4 轮持续 30+ 天验证)。**第 12 dry scan round**。**核心发现**: V0.1.14 commit b905490 (5/1 20:16Z) 提交在 round-5 acceptance (5/1 20:13Z) 之后 3 min,V0.1.14 follow-up b66c2ac (5/1 20:51Z) 在 PR 已 CLOSED 后 38 min 仍 logged stale watchdog — V0.1.14 author 未刷新 GitHub 漏看 round-5 整轮。
