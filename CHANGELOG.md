@@ -1,5 +1,54 @@
 # CHANGELOG
 
+## V0.1.17 — 2026-05-10 — 第 13 dry scan round (mastra #16383 Path A premise invalidated abort + takeaway #20 issue-body-stale-dist R7 sub-pattern first catch)
+
+**Trigger**: User said "扫描algora" → Step 0 subagent (general-purpose `a88250cf633be7d7c`) audit V0.1.16 后 6 天 dry round 13 strategy — 推荐 V0.1.4-mode mastra unassigned bug pool > Algora 平台 sweep (净新增 = 0 第 5 轮验证); 跳平台 sweep + 不 @ping #15904 hibernate。Algora 平台 ground truth 15 GitHub-issue + 2 PR-level **100% V0.1.7~V0.1.15 已 abort 或 archestra/Cap-go/PX4 整 org poison fall-through** (ZIO #8807 唯一真新但同 R6+R9+0-exp Scala 100-150h fall-through, 净新增可竞争 = 0)。**第 13 dry scan round**。
+
+**核心发现**: mastra unassigned bug pool 5/1-5/10 共 19 issue, 9 deep-scan:
+- 4 mid-fresh 全 R2/R12 fall-through: #16052 ToolCallFilter (3 OPEN + 1 CLOSED 同 fix) / #16216 saveThread → PR #16259 OPEN / #16364 logger → PR #16369 OPEN / #16114 NestJS → PR #16268 OPEN
+- 5 fresh: #16395 GPT 5.5 vendor-dep / #16380→PR #16381 R2 / #16384→PR #16386 R2 (5/10 today 11h 前) / #16377→PR #16378 R2 / **1 marginal #16383 唯一 R2 通过**
+
+User GO #16383 Path A (`OpenAISchemaCompatLayer.shouldApply()` gate 移除 + regression test) → **实施前 source verify** (`Read current packages/schema-compat/src/provider-compats/openai.ts:48-58`) 发现 **Path A premise 反转** (R7 sub-pattern, takeaway #20):
+- Reporter `bluepnume` (NONE author_association) issue body 引用 `shouldApply() return !this.getModel().supportsStructuredOutputs && (...openai/groq...)`
+- Actual main source 是 `!this.isReasoningModel() && (model.provider.includes('openai')||model.modelId?.includes('openai')||model.provider.includes('groq'))` — **gate 已不存在**, modern OpenAI 已 always apply
+- Reporter 看的是 `@mastra/schema-compat: 1.1.3` stale dist build snapshot, current main `1.2.9` (差 2 minor 步)
+- Real fix = caller-level wiring (`zodToJsonSchema` L282-323 无 provider 参数无法 inline 加 OpenAI-specific 后处理; `prepareJsonSchemaForOpenAIStrictMode` L216 已 export 仅被 `@mastra/core/src/stream/aisdk/v5/execute.ts:129` 在 responseFormat 路径 wire) + v4 primitive-union mangling (`fixAnyOfNullable` L120-134 把 empty `{}` property 替换为 `['string','number','boolean','null']`) 重写, 跨 2-4 file 100+ LOC **超 hard rule #6 50-line cap 2 倍** + hot churn 同 file #16378 (nehaaprasaad +15/-0 OPEN trivial-3min) consolidate-magnet → **abort #16383**
+
+**Action taken** (mastra side, 0 GitHub action): abort, 0 commit / 0 push / 0 comment / 0 fork action / 0 branch create。`~/oss-scout-work/mastra` 仅 local sparse-checkout 加 `packages/schema-compat/` 用于 verify, 不 commit。
+
+**Action taken** (algora-scout side, 2 git-tracked files):
+- `shipped-log.md` (3 处 in-place edit):
+  - First-merge stats: dry rounds 12 → 13 + V0.1.17 chronology entry (Algora 平台 15+2 fall-through + mastra 9 deep-scan path + #16383 premise verify abort)
+  - Aborted targets: 加 1 row #16383 (R7 sub-pattern + Path A premise verify 反转 + 关键 source citation 对比 + abort 0 GitHub action)
+  - Org-level takeaways: 新 V0.1.17 段加 takeaway #20 (6 sub-bullet: 结构性识别信号 ④ / 新 pre-action checklist 3 步 / 与 V0.1.10 #13 三步反驳框架区别 / 与 R7 区别 + 升级路径 / 三方核查 Step 2c 扩展 / V0.1.16+V0.1.17 同元 lesson + 统一框架 + next scout 应用)
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (#20 是 R7 sub-pattern, 不是新 red flag; 母 R7 row 不改; 不增 Hard rules / Known poison; pre-action checklist 已 implicit 在 #19 + #20 范畴, 不写进 Hard rules)
+- 不动 evaluation-checklist.md ("Documented failures" 段 R7 母 bullet 不双 mirror, 仅 shipped-log takeaway #20 形式; 若再 catch 第 2 例 stale-dist 则 promote 到 evaluation-checklist R7 formal sub-bullet)
+- 不动 RemoteTrigger (#15904 5/4 baseline 6 天 silent → hibernate 不 ping, V0.1.14 NO @-mention 框架 + 第 2 次 ping risk 高于 hibernate; ball 在 reviewer 侧)
+
+**Step-0 subagent 审核** (2 round in V0.1.17 cycle, 全采纳):
+- Round 1 (`a88250cf633be7d7c`, V0.1.17 dry round strategy): 5 点 — V0.1.4-mode > 平台 sweep / mastra cap=1 可投 1 安全 / 跳平台 sweep (第 5 轮净新增 = 0) / 无遗漏 paid org / 5 red lines (NO @-mention #15904 + R17 + devin/kagura squat 预飞 + NO 进 #16395 vendor + NO cumulative dry+ship round + commit timing pre-action `gh pr view` checklist)
+- Round 2 (`af1ca016fa69586de`, Path A draft audit): 7 点 — Path A premise wrong (gate 已不存在) / Real scope 50-70 行实际 100+ (caller-level wiring + v4 重写) / R6 override 不适用 (远超 cap) / Path B remove from PR body / R11 unit-only OK / Hot-churn HIGH risk #16378 same-file / Red lines (不动 reasoning / 不编 dist / R17 check / 5 OPEN consolidate-risk 可 defer 2-3 day for #16378 outcome)
+
+**Diff vs V0.1.16**:
+- `shipped-log.md`: 3 处 in-place edit (stats / aborted / new takeaway 段)
+- `CHANGELOG.md`: this entry
+- 0 mastra side changes (premise verify abort)
+- 0 RemoteTrigger 变化
+
+**Open follow-up state** (delta vs V0.1.16):
+- `mastra-ai/mastra#15904` 5-day cadence baseline 2026-05-04 → 5/9 manual eval window 已过 1 天 silent → hibernate 不 ping (ball 在 reviewer 侧, V0.1.14 NO @-mention 框架 + 第 2 次 ping asymmetric risk 高于 hibernate); state=OPEN, reviewDecision=REVIEW_REQUIRED, reviewRequests=[]
+- 其他 PR / watchdog 状态 carry-forward V0.1.16 unchanged
+
+**Why** abort 而非 pivot to Path C/D/comment-on-issue:
+- Path C/D (real fix wiring) scope 远超 hard rule #6 50-line cap, 不是 #15904/#15934 +69/+146 同质单文件 override 可合规化 (Path C/D 跨 2-4 file + caller-level API 改 + v4 primitive-union 重写, 是 multi-file refactor 类)
+- Comment on issue 给 maintainer 留 actual root-cause note 在 CLAUDE.md "Executing actions with care" → "Actions visible to others or that affect shared state: ... commenting on issues" 仍是 GO gate; user "你自己决定" 不覆盖 specific 远程动作授权 (CLAUDE.md "最优执行 例外 ① 不可逆操作 ... 发外部消息"); 不自决进入 comment, 留 user 后续如想留 maintainer-facing note 可单独 GO
+- Defer 2-3 day for #16378 outcome (subagent 推荐): 不解决 R7 sub-pattern (premise wrong 与 #16378 outcome 无关), 仅推迟问题, 不采纳
+
+**Revert path**: `git revert <V0.1.17 sha>` 恢复 algora-scout 文件 (shipped-log 3 处 edit 撤 + CHANGELOG entry 删 + takeaway #20 段删)。Mastra repo 0 GitHub action 不需 revert (local sparse-checkout 加 `packages/schema-compat/` 是 local-only 不 push); local mastra branch `fix/build-messages-semantic-order` checkout 不变 (未切新 branch)。
+
+---
+
 ## V0.1.16 — 2026-05-04 follow-up — #15904 A-modified neutral bump posted (V0.1.14 watchdog template, no @-mention)
 
 **Trigger**: V0.1.15 commit d6e5431 落地后 user 选 #15904 5-day cadence ping option A (推荐 @CalebBarnes 因其是 #15454 author = Francis 修的 regression 引入者) → Step 0 subagent abb69757207ba9179 在 fetch 数据时反转原 A 假设: `gh api orgs/mastra-ai/public_members/CalebBarnes` 返 204 = **Caleb 是 mastra-ai org public member** (company="Mastra", 30 天内 13 commits 进 mastra), 不是 external contributor → @-mention 落入 V0.1.14 watchdog `trig_01SPBzc9r7NrGVXEH8NSGeAx` 原 prompt 明令 NO @-mentions 原始 scope (cold-account 不主动召唤 maintainer 注意, 与是否 "contextual" 无关, 身份才是判据) → veto 原 A 推 A-modified (V0.1.14 watchdog template neutral bump no @-mention)。User confirmed A-modified。
