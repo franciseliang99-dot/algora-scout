@@ -1,5 +1,73 @@
 # CHANGELOG
 
+## V0.1.20 — 2026-05-10 — hibernate enter + WORKFLOW Hard rule #8 (60-day archive gate)
+
+**Trigger**: User V0.1.19 commit (4ec0ff5) 后 "查看邮件" → Gmail 0 Algora 相关 (90 天 + token live + history broad) → user 追问 "这个项目没有任何收益, 是不是应该停止" → Step 0 subagent (general-purpose `a99741e410e02e280`) independent kill-or-continue audit (4 点: 项目无显式 kill criteria / 13 dry round 结构性零池 / 隐性收益已基本兑现 / 推荐 hibernate + 60 天 archive 闸 adjust-scope 3 步)。User GO A (按推荐)。Implementation audit subagent (`a0103bffde7f51189`) 4 点全采纳 (paid org 入册改 git-trackable WORKFLOW.md commit 定义 / watchdog hibernate 命中改 fire 完毕 final state / Project state 段位 First-merge hunt stats 之上 / 不 disable RemoteTrigger 因 3 trigger 都 one-time fire)。
+
+**核心 shift**: 项目从 open-ended (无止损线) 升级到有 hibernate gate + 60 天 archive 闸; 当前数据 (17 天 0 bounty + 13 dry round + mastra cap 满 12+ 天 silent) 已满足 hibernate 触发 → V0.1.20 即时 enter (不是未来某天 enter, 是本 commit 落地即 enter)。
+
+**Action taken (3 项 git file)**:
+
+**A. WORKFLOW.md Hard rule #8 新增 "Hibernate gate (V0.1.20 2026-05-10)"**:
+- 插入位置: WORKFLOW.md L131 (#7 之后, "Known bounty-paying orgs" 段之前)
+- 进入条件 (两条同满 14 天): ① 0 PR ship (`gh pr create` 落地, watchdog ping 不计) ② 0 新 `Known bounty-paying orgs` block git commit 入册 (必须 git-trackable, Algora 平台新挂 / subagent 推荐均不计)
+- Hibernate 期间: 仅保留已挂 watchdog read-only fire, 不主动 scout / 不创建新 watchdog / 不 ship 新 PR; watchdog 自身 ship-recommend 输出 hold
+- Archive 闸 (60 天): ① 0 新 merge ② 0 bounty claim ③ 已挂 watchdog 全 fire 完毕且 final state 报 hibernate (无 maintainer 回应 / 无 PR state transition) → archive 整 repo + abort 库 export `oss-contrib-failure-modes.md` 公开 (Upgrade triggers "3 merged → 公开" 降级版)
+- 起算: 14 天从最近 ship (V0.1.9 #15934 4/29, 已 11 天) + V0.1.7 (4/29) 后无新 paid org → 2026-05-10 V0.1.20 enter; archive 闸 = 2026-07-09
+
+**B. shipped-log.md "Project state" 新段** (插入 First-merge hunt stats 之上):
+- Append-only 段, 单 bullet `2026-05-10 V0.1.20 — hibernate enter` 含触发条件双满证据 + 3 watchdog ID 引用 + archive 闸日期 + revert path
+- Project state 段定位 project-level state machine (与 PR-level Status codes 正交), 未来 V0.1.21+ 状态变更 (hibernate exit / archive enter / archive exit) 在此段 append-only 记录, 不删旧 bullet
+
+**C. CHANGELOG.md V0.1.20 entry** (本 entry)
+
+**Action taken (algora-scout side, 3 git-tracked files + 0 RemoteTrigger create/disable)**:
+- `WORKFLOW.md`: +13 行 (Hard rule #8 段)
+- `shipped-log.md`: +3 行 (Project state 新段 + 单 hibernate enter bullet)
+- `CHANGELOG.md`: this entry
+- 不动 evaluation-checklist.md (Hard rule 是 process gate 不是 evaluation R/G flag; hibernate state 是 project-level 不是 candidate-level)
+- 不动 mastra repo (0 git action; hibernate 是 algora-scout 项目级 state, 与 mastra PR portfolio 跟进解耦)
+- 0 RemoteTrigger 改动 (3 已挂 watchdog 都 one-time fire, fire 完自动失活, 不需 disable; hibernate 是 declarative state, 不动 cron)
+
+**Step-0 subagent 审核** (2 round in V0.1.20 cycle, 全采纳):
+- Round 1 (`a99741e410e02e280`, kill-or-continue audit): 4 点 — 项目无 kill criteria (sunk-cost 风险) / 13 dry round 结构性 (V0.1.7→V0.1.17 净新增 0 五轮一致) / 隐性收益已兑现 (1 merged + 1 supersede + 53 abort row + 20 takeaway, 再投 1 周边际产出 ≈ 0) / 推荐 hibernate + 60 天 archive 闸 + adjust scope 3 步 (冻结 scout / 留 watchdog / 设硬止损)
+- Round 2 (`a0103bffde7f51189`, V0.1.20 implementation audit): 4 点 — Q1 paid org 入册定义改 (a) git-trackable WORKFLOW.md commit (vs Algora 平台新挂不可观测 / subagent 推荐每天都给 noise) / Q2 watchdog hibernate 命中改 fire 完毕 final state (silent watchdog 已是 watchdog payload 默认输出, 与 archive 闸耦合更清晰) / Q3 Project state 段位 First-merge hunt stats 之上 (Status codes 是 PR-level, Project state 是 project-level, 语义连贯) / Q4 不 disable RemoteTrigger (3 都 one-time fire, hibernate declarative 不动 cron) + 加尾句 watchdog ship-recommend 也 hold (堵 watchdog 自荐漏洞)
+
+**Diff vs V0.1.19**:
+- 3 git file (WORKFLOW +13 / shipped-log +3 / CHANGELOG this entry)
+- 0 RemoteTrigger 改动 (V0.1.18+V0.1.19 3 个 trigger carry-forward; hibernate 不影响 fire schedule)
+- 0 mastra side changes (hibernate 是 algora-scout 项目级 state)
+- 0 evaluation-checklist 改
+
+**Open follow-up state** (delta vs V0.1.19):
+- Project state: **hibernate** (新; V0.1.19 active scout)
+- Archive 闸日期: 2026-07-09 (60 天后)
+- 3 watchdog carry-forward V0.1.18+V0.1.19 unchanged: `trig_011D6Em98ALX8PrH4LgrRfxq` (5/14T17:00Z #15904) + `trig_01Cei1eMox6mPH8Wmx26V6N1` (5/18T17:00Z grundmanise#1+#15637+formatBlock fold-in) + #16073 supersede review 跟踪
+- 其他 PR / takeaway 状态 carry-forward V0.1.19 unchanged
+
+**Why** hibernate 而非全 archive (subagent ack):
+- 1 merged (#15692) + 1 closed-superseded (#15934 → #16073 maintainer 公开 acknowledged "I was misunderstanding...#16073 achieves the same thing") = cold-account 真实可引 portfolio, archive 即删历史可访问性
+- 53 abort row + 20 takeaway = OSS-failure-mode methodology 资产, archive 后 export 公开比 delete 损耗低
+- 3 watchdog 已挂未 fire, hibernate 期间继续 read-only 跑 0 边际投入; 60 天后 fire 完毕的 final state 是 archive 决策的硬数据 (不止于"主观觉得没意思了"的 sunk-cost 退出)
+
+**Why** 14 天 + 60 天 (subagent 推荐 + user 采纳):
+- 14 天 = 最近 V0.1.9 → V0.1.17 ship/dry 节奏的 1 std deviation 上限 (avg 3-5 天一轮 dry, 14 天连续 0 ship 是结构性而非 cadence noise)
+- 60 天 = 3 个 watchdog fire 间距 (5/14 + 5/18) 的 ~10 倍 buffer + maintainer 排期常规上限 (mastra #15904 已 silent 12 天, 60 天足以覆盖 review 还魂可能性) + 不超过 V0.1.5/V0.1.8 user-explicit override revert path 合理 retention 期
+
+**Why** 不 disable RemoteTrigger (subagent ack):
+- 3 trigger 都 one-time fire (V0.1.18 CHANGELOG B/C 段明确 "one-time", V0.1.19 fold-in 不改 fire 模式)
+- Fire 完自动失活, hibernate "不创建新 watchdog" 已含义不动既有 fire schedule
+- Disable 反而打断 archive 闸 ③ 的 "watchdog 全 fire 完毕 final state" 决策依据
+
+**Why** 不写 evaluation-checklist sub-bullet:
+- hibernate state 是 project-level state machine, 不是 candidate-level R/G flag
+- evaluation-checklist 是 scout-time per-issue scoring rubric, 与 project hibernate 正交
+- Hard rule 是 cross-cutting process gate 适合此 (与 V0.1.18 #7 promote 路径一致)
+
+**Revert path**: `git revert <V0.1.20 sha>` 移 WORKFLOW Hard rule #8 段 + shipped-log Project state 段 + 本 CHANGELOG entry, 回归 V0.1.19 active scout 模式 (无 hibernate gate)。3 RemoteTrigger 不 git-tracked, 不需 revert (carry-forward 不动)。
+
+---
+
 ## V0.1.19 — 2026-05-10 follow-up — formatBlock commitment fold-in to 5/18 watchdog (trig_01Cei1eMox6mPH8Wmx26V6N1 payload update)
 
 **Trigger**: User V0.1.18 commit `8290650` 后 "下一步做什么" → Step 0 subagent (general-purpose `ab94042b24aba8850`) gap audit → 1 actionable (formatBlock commitment unmonitored gap) + 3 SKIP (CLAUDE.md 项目级反射元规则三答否/否/是 不满足 / 平台 sweep 第 6 轮频率不到 / evaluation-checklist sub-bullet drift 风险)。User GO #1。

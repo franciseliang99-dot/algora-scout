@@ -129,6 +129,16 @@ Append a row to `shipped-log.md`. Update when state changes (CI, review, merge, 
    3. `gh api orgs/<org>/public_members/<user>` — 验 mention-target / reporter identity (HTTP 204 = org member, cold-account NO @-mention; HTTP 404 = external)
    任一项反转 (candidate state 变 / source citation 不字面命中 / mention-target 是 org member) → **pause + report user 哪一项反转 + 反转前后对比**, 不直接进入 draft / comment / push / @-mention。即使 step 1 反转 (PR 已 close 后续 step 失意义), 仍跑完 step 2+3 一并 report 完整诊断信息 (避免下次同模式漏 catch 的 surface)。
 
+8. **Hibernate gate (V0.1.20 2026-05-10)**. Project-level state machine, 与 PR-level status codes 正交。**进入条件 (两条同满 14 天)**:
+   1. 0 PR ship (`gh pr create` 落地; V0.1.4-mode coordination ping / V0.1.16 watchdog ping 不计 — ping 是 watchdog action 非 ship)
+   2. 0 新 `Known bounty-paying orgs` block git commit 入册 (Algora 平台新挂 / Step 0 subagent 推荐均不计; 必须 git-trackable WORKFLOW.md commit)
+
+   两条同满 → 进入 hibernate, 仅保留已挂 watchdog (read-only RemoteTrigger fire), 不主动 scout / 不创建新 watchdog / 不 ship 新 PR。Watchdog fire 自身输出的 "ship-recommend" 也 hold 到 archive 闸 evaluation, 不在 hibernate 期间触发 ship。
+
+   **Archive 闸 (60 天)**: hibernate 持续 60 天且 ① 0 新 merge / ② 0 bounty claim / ③ 已挂 watchdog 全部 fire 完毕且 final state 报 hibernate (无 maintainer 回应 / 无 PR state transition) → archive 整 repo (shipped-log.md 锁死 + abort 库 export 为 `oss-contrib-failure-modes.md` 公开 = Upgrade triggers "3 merged → 公开" 的降级版)。
+
+   **起算**: 14 天从最近一次 PR ship (V0.1.9 #15934 ship 4/29, 已 11 天) + V0.1.7 (4/29) 后无新 paid org 入册 → 2026-05-10 V0.1.20 enter。Archive 闸 = 2026-07-09。**Revert**: `git revert <V0.1.20 sha>`。
+
 ## Known bounty-paying orgs (as of 2026-04-29)
 
 Verified via Algora pages. Priority order for scouting = cold-account friendliness × stack match. **Pre-flight:** `WebFetch algora.io/<slug>` to confirm `total awarded > 0` before investing — paid status decays.
