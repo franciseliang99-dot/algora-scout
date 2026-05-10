@@ -1,5 +1,63 @@
 # CHANGELOG
 
+## V0.1.19 — 2026-05-10 follow-up — formatBlock commitment fold-in to 5/18 watchdog (trig_01Cei1eMox6mPH8Wmx26V6N1 payload update)
+
+**Trigger**: User V0.1.18 commit `8290650` 后 "下一步做什么" → Step 0 subagent (general-purpose `ab94042b24aba8850`) gap audit → 1 actionable (formatBlock commitment unmonitored gap) + 3 SKIP (CLAUDE.md 项目级反射元规则三答否/否/是 不满足 / 平台 sweep 第 6 轮频率不到 / evaluation-checklist sub-bullet drift 风险)。User GO #1。
+
+**核心 gap**: Francis 2026-04-27 在 mastra-ai/mastra#15692 thread (CodeRabbit nitpick reply) + #15637 comment 4332190019 公开承诺 #15637 merge 后 ship formatBlock hook follow-up PR — WORKFLOW.md Portfolio rules "Public in-PR commitments must be scheduled, not memory-d" 明令。原 4 trigger 全 `auto_disabled_repo_access` (source attach mastra-ai 触发):
+- `trig_013bUbcqV4jaEyJzdHALTPTD` daily formatBlock
+- `trig_014J4hyLPdyk8scHqwsijcQN` weekly formatBlock ship-ready
+- `trig_01G1RFY6WFEjtHDydkncHKFN` weekly #15637 followup-check
+- `trig_01VmjHWi8uLW5Zxkc1VUPry2` weekly grundmanise#1 track
+
+V0.1.18 新 5/18 grundmanise watchdog 已 partial cover #15637 + grundmanise#1 但**漏 explicit formatBlock check 分支** — audit gap。
+
+**Action taken (1 项, 0 git file 改动 + 1 RemoteTrigger update)**:
+
+**RemoteTrigger `trig_01Cei1eMox6mPH8Wmx26V6N1` payload update** (fold-in, 不开新 trigger 避免重蹈 4 老 trigger `auto_disabled_repo_access` 命运):
+- 名字保持 `grundmanise-1-and-15637-double-stale-watchdog-2026-05-18`, fire 时间 2026-05-18T17:00Z 保持
+- Background 段加 formatBlock commitment context (4 老 trigger 历史 + V0.1.18 fold-in 决策)
+- 加 step 5: 仅在 #15637 state == MERGED 时跑 `gh pr list --repo mastra-ai/mastra --author franciseliang99-dot --search 'formatBlock in:title,body' --state all` — 验 follow-up PR 已 ship 否
+- Decision tree 2 个 "#15637 MERGED" 分支 extend 触发 step 5 + 报 formatBlock status (grundmanise#1 MERGED + #15637 MERGED / #15637 MERGED + grundmanise#1 仍 OPEN)
+- "#15637 CLOSED no-merge" 分支加: formatBlock 承诺随 #15637 拒 自然免除 (无 hook 落地点)
+- "Both 20-day stale" 分支加: formatBlock 仍 dormant (waiting on #15637 merge)
+- 新 callout 段: step 5 非空 → ALREADY_DONE; step 5 空 → 🚨 NOT YET FILED + ship recommendation (hook signature + placement + scope cap ≤40 LOC / ≤3 file per Hard rule #6)
+- Hard rules 不变 (NO @-mention / NO comment / NO push / NO file edit)
+- `updated_at: 2026-05-10T20:41:51Z` (HTTP 200)
+
+**Action taken (algora-scout side, 1 git-tracked file)**:
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (rule 不变, 只 trigger payload polish)
+- 不动 shipped-log.md (V0.1.18 takeaway #20 母段 unchanged; 不是新 pattern 发现, 是 V0.1.18 audit gap closure)
+- 不动 evaluation-checklist.md (rule 不变)
+- 不动 mastra repo
+
+**Step-0 subagent 审核** (1 round in V0.1.19 cycle, 全采纳):
+- `ab94042b24aba8850` (post-V0.1.18 gap audit): 4 点 — #1 formatBlock fold-in 5/18 watchdog spec extend (HIGH actionable; 不开新 trigger 避免 auto_disabled fate) + 3 SKIP (CLAUDE.md 元规则三答否 / 平台 sweep 频率 / evaluation-checklist drift 风险)。subagent 推荐 path 直接采纳 (fold-in via RemoteTrigger update partial payload, 不动 git 文件 — 但实际 V0.1.16/V0.1.18 precedent 都 log trigger 操作 audit, 故仍 CHANGELOG mini entry 保 consistency)
+
+**Diff vs V0.1.18**:
+- 0 mastra side changes
+- 1 git file (`CHANGELOG.md` this entry)
+- 1 RemoteTrigger update (`trig_01Cei1eMox6mPH8Wmx26V6N1` payload extended, name/fire-time 保持)
+- 0 new trigger create (fold-in 不开新)
+
+**Open follow-up state** (delta vs V0.1.18):
+- `trig_01Cei1eMox6mPH8Wmx26V6N1` 5/18 watchdog 现含 formatBlock follow-up check (triple-watchdog: grundmanise#1 + #15637 + formatBlock)
+- 其他 PR / watchdog 状态 carry-forward V0.1.18 unchanged
+
+**Why** fold-in 而非新 trigger (subagent ack):
+- 4 老 trigger 全 `auto_disabled_repo_access` (source attach mastra-ai 触发) — 新建第 5 老 trigger 大概率重蹈
+- 5/18 watchdog 已含 #15637 state check, formatBlock check 仅在 #15637 MERGED 时需要 → 自然 fold-in 同一 trigger
+- 减少 trigger 总数 = 减少 token 消耗 + audit 复杂度
+
+**Why** V0.1.19 而非 V0.1.18 follow-up (naming) :
+- 与 V0.1.17 → V0.1.18 progression 一致 (clean 版本递增)
+- 历史 "V0.1.14 follow-up" / "V0.1.16 follow-up" 命名 loose, 不强 enforce; V0.1.19 cleaner
+
+**Revert path**: `git revert <V0.1.19 sha>` 移本 CHANGELOG entry。RemoteTrigger payload revert 需 `RemoteTrigger action=update trigger_id=trig_01Cei1eMox6mPH8Wmx26V6N1 body=<V0.1.18 原 payload>` 手动还原 (V0.1.18 create response 含完整原 payload, 可参 git blame V0.1.18 commit `8290650` 时的 CHANGELOG entry 还原)。
+
+---
+
 ## V0.1.18 — 2026-05-10 — WORKFLOW Hard rule #7 升级 (pre-implementation source verify) + 2 RemoteTrigger watchdog (#15904 5/14 + grundmanise#1+#15637 5/18)
 
 **Trigger**: User GO V0.1.17 commit (0541f7c) 后 "下一步做什么" → Step 0 subagent (general-purpose `a57cdf1134786be55`) audit next-step strategic options → rank top 3 (#1 #15904 watchdog 5/14 + #2 grundmanise#1+#15637 double-stale watchdog 5/18 + #3 Hard rule #7 升级)。User GO 1+2+3 combo。Implementation audit subagent (`ac4df1ac1646794d1`) 5 点全采纳: ① grundmanise watchdog 5/15→5/18 周一避周末 / ② Hard rule #7 加"全部跑完不短路" / ③ 次序 `gh pr view`→`Read`→`gh api` / ④ single commit / ⑤ Hard rule generic 不嵌 PR 号 + trigger payload 不进 git CHANGELOG + grundmanise watchdog 4 decision tree 分支。
