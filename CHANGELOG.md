@@ -1,5 +1,64 @@
 # CHANGELOG
 
+## V0.1.20 follow-up — 2026-05-10 — archive 闸 watchdog created (trig_01E4EbaoQif94HyWpDHX5n5U 2026-07-09T18:00:00Z)
+
+**Trigger**: V0.1.20 commit `15ab5d7` 落地后主 Claude 提 archive 闸 evaluation gap (7/9 无 trigger 机制 → "永久 hibernate" 死规则风险, V0.1.18/V0.1.19 precedent 所有 future obligation 挂 RemoteTrigger watchdog) → user GO A 补 RemoteTrigger watchdog (V0.1.20 follow-up)。Step 0 subagent (general-purpose `adfe35cd5b17e6d23`) audit watchdog design 6 点 (fire time / name / source attach / read-only check 内容 / decision tree outcomes / hard rules) → 3 修订: (1) Q1 fire 18:00:00Z (+1h after 5/14+5/18 watchdog 17:00Z slot settle 避免 in-flight race); (2) Q4 read-only check 加 cross-ref timeline + Francis 新 merge query 一次性化 + bounty 显式列 user manual; (3) Q5 decision tree 加 ARCHIVE DEFERRED 第 5 分支 (supersede in-flight / formatBlock pending review / grundmanise 在 motion → hibernate +30 天 micro-extension)。全采纳。
+
+**核心**: V0.1.20 base 设 60 天 archive 闸但缺 trigger 机制 (依赖 user 7/9 主动记忆 = 脆弱)。Follow-up 补 watchdog 闭环, 60 天后自动 fire + 5 verdict 决策树驱动 archive YES/NO/PARTIAL/DEFERRED/ERROR 推荐。
+
+**Action taken (1 RemoteTrigger create + 2 git-tracked file)**:
+
+**A. RemoteTrigger `trig_01E4EbaoQif94HyWpDHX5n5U` algora-scout-archive-gate-evaluation-2026-07-09**:
+- Fire: 2026-07-09T18:00:00Z (Thu 14:00 ET) — 60 天 after V0.1.20 hibernate enter 5/10; +1h after 5/14+5/18 watchdog 17:00Z slot settle (避免 in-flight race)
+- Read-only check (6 query): Francis 新 merge condition ① auto-check + #15904 cross-ref timeline + post-5/14 comments + grundmanise#1+#15637 final state since 5/18 + #15692 verify still merged + #15934 verify closed-superseded carry + #16073 supersede final state + formatBlock follow-up PR check
+- Bounty payout: 显式列 OPERATOR MANUAL CHECK REQUIRED (Gmail `from:algora.io OR from:stripe.com algora newer_than:60d` + algora.io/franciseliang99-dot leaderboard, watchdog 不能程序化验)
+- 5 verdict 决策树: ARCHIVE YES (3 condition 全满 → V0.2.0 archive commit + abort 库 export `oss-contrib-failure-modes.md`) / ARCHIVE NO (任一 condition broken positively → hibernate exit + active scout return) / ARCHIVE PARTIAL (5/14 或 5/18 watchdog fire incomplete → +14 天 micro-extension re-eval 7/23) / ARCHIVE DEFERRED (supersede in-flight 60 天断点恰可能卡 mid-supersede → +30 天 micro-extension re-eval 8/8) / ARCHIVE ERROR (query failure → manual 7/9 evaluation)
+- Hard rules (8 条): NO @-mention / NO comment / NO push / NO file edit / NO PR create / NO RemoteTrigger create-update-disable (避免 watchdog 嵌套自创) / NO export `oss-contrib-failure-modes.md` (export = V0.2.0 archive commit landing action, 不是 evaluation 当下做) / Output = one markdown summary only
+
+**B. shipped-log.md Project state 段 append 1 bullet** (V0.1.20 follow-up):
+- 不修改 V0.1.20 base hibernate enter bullet (append-only 原则), 在其后 append 新 bullet 含 trigger ID + fire time + 6 query + 5 verdict 决策树 + 8 hard rules + watchdog count 4 + takeaway #21 候选注解
+
+**C. CHANGELOG.md V0.1.20 follow-up entry** (本 entry)
+
+**Action taken (algora-scout side, 2 git-tracked files + 1 RemoteTrigger create)**:
+- `shipped-log.md`: +1 bullet (Project state 段末尾 append, V0.1.20 base bullet 不动)
+- `CHANGELOG.md`: this entry
+- 不动 WORKFLOW.md (Hard rule #8 不改, 文字未引 trigger ID)
+- 不动 evaluation-checklist.md
+- 不动 mastra repo
+- 1 RemoteTrigger created (`trig_01E4EbaoQif94HyWpDHX5n5U`, enabled=true one-time fire)
+
+**Step-0 subagent 审核** (1 round in V0.1.20 follow-up cycle, 全采纳):
+- `adfe35cd5b17e6d23` (archive-gate watchdog design audit): 6 点 — Q1 fire time 18:00:00Z (+1h settle vs Q1.a 17:00Z 同 race) / Q2 trigger name `algora-scout-archive-gate-evaluation-2026-07-09` 与 Hard rule #8 措辞 1:1 mirror / Q3 source attach franciseliang99-dot/algora-scout (V0.1.16+V0.1.18+V0.1.19 三次硬证据) / Q4 read-only check 加 cross-ref timeline + Francis 新 merge 一次性 query + bounty 显式 user manual / Q5 加 ARCHIVE DEFERRED supersede-in-flight 第 5 分支 (60 天断点恰可能卡 mid-supersede) / Q6 hard rules 完整 + 加 NO update 防自改
+
+**Diff vs V0.1.20 base (15ab5d7)**:
+- 2 git file (shipped-log +1 bullet / CHANGELOG this entry)
+- 1 RemoteTrigger created (`trig_01E4EbaoQif94HyWpDHX5n5U`)
+- 0 mastra side changes
+- 0 WORKFLOW / evaluation-checklist 改
+- 0 V0.1.20 base 文件二次改 (Hard rule #8 + base hibernate enter bullet 已 V0.1.20 base 落地)
+
+**Open follow-up state** (delta vs V0.1.20 base):
+- archive 闸 evaluation 现挂 watchdog `trig_01E4EbaoQif94HyWpDHX5n5U` 2026-07-09T18:00:00Z (V0.1.20 base 缺 trigger 机制 gap closure)
+- 4 watchdog 总状态: 5/14 #15904 + 5/18 三 fold-in + 7/9 archive 闸 + #16073 supersede manual track
+- 其他 PR / takeaway 状态 carry-forward V0.1.20 base unchanged
+
+**Why** follow-up 而非 V0.1.20 amend (global CLAUDE.md 提交纪律):
+- "CRITICAL: Always create NEW commits rather than amending" (Pre-commit hook 失败 case 例外不适用; 这是 design gap closure 加 trigger, 不是修 commit 内容)
+- V0.1.16 / V0.1.19 follow-up precedent: 主 commit 落地后发现 gap, 用 follow-up 而非 amend (V0.1.16 #15904 ping 加 + V0.1.19 formatBlock fold-in 加 5/18 watchdog payload, 都 follow-up)
+
+**Why** allowed_tools server-default (新 takeaway #21 候选, V0.1.20 follow-up 触发):
+- create body 含 `session_context.allowed_tools=["Bash", "Read"]` 但 HTTP 200 response 显示 server replace 成 default toolset (含 Edit/MultiEdit/Write/NotebookEdit/Task/Skill/WebFetch/TodoWrite/BashOutput/KillBash/Tmux/Monitor/SendUserFile/REPL 等 19 工具)
+- V0.1.18 trigger 同字段 verify 仍 honored ["Bash", "Read"] (V0.1.18 create 时 schema)
+- 推测 RemoteTrigger API v1→v2 schema migration 后 session_context 字段路径 / 字段名变化, V0.1.18 旧 trigger 保留 v1 honor, 新 create 走 v2 默认 (or 路径错置 server 忽略 + fallback default)
+- **风险**: watchdog 在 fire 时工具 capability 含 Edit/Write/Task/Skill 等 — 与 hard rules "NO file edit / NO PR create / NO RemoteTrigger create-update-disable / NO export" 形成 prompt-vs-capability 间隙
+- **mitigation**: prompt hard rules 是真正护栏 (8 条明令); capability 冗余但 watchdog 不主动用; V0.1.21+ 可单独 RemoteTrigger update 试 force allowed_tools (低优先级)
+- **takeaway #21 候选** (待 V0.1.21 落地时正式 promote 至 shipped-log Org-level takeaways 段): 新 RemoteTrigger create 时 verify session_context.allowed_tools 是否被 server-default 替换; 替换发生时记 prompt-vs-capability 间隙 + 仅靠 prompt hard rules 兜底; 跨 schema migration 不假设字段 honored, **必须 post-create get 验**
+
+**Revert path**: `git revert <V0.1.20 follow-up sha>` 移本 CHANGELOG entry + shipped-log Project state 段 V0.1.20 follow-up bullet。RemoteTrigger 不 git-tracked, 撤需 `RemoteTrigger action=update enabled=false trigger_id=trig_01E4EbaoQif94HyWpDHX5n5U` 手动 disable (不删, 留作历史 reference)。
+
+---
+
 ## V0.1.20 — 2026-05-10 — hibernate enter + WORKFLOW Hard rule #8 (60-day archive gate)
 
 **Trigger**: User V0.1.19 commit (4ec0ff5) 后 "查看邮件" → Gmail 0 Algora 相关 (90 天 + token live + history broad) → user 追问 "这个项目没有任何收益, 是不是应该停止" → Step 0 subagent (general-purpose `a99741e410e02e280`) independent kill-or-continue audit (4 点: 项目无显式 kill criteria / 13 dry round 结构性零池 / 隐性收益已基本兑现 / 推荐 hibernate + 60 天 archive 闸 adjust-scope 3 步)。User GO A (按推荐)。Implementation audit subagent (`a0103bffde7f51189`) 4 点全采纳 (paid org 入册改 git-trackable WORKFLOW.md commit 定义 / watchdog hibernate 命中改 fire 完毕 final state / Project state 段位 First-merge hunt stats 之上 / 不 disable RemoteTrigger 因 3 trigger 都 one-time fire)。
