@@ -123,6 +123,11 @@ Append a row to `shipped-log.md`. Update when state changes (CI, review, merge, 
 4. **Never invent a fix not grounded in the issue body + maintainer-visible code**. If the issue lacks a repro or suggested fix, drop it — maintainer review will drag, which is the worst outcome for a cold account.
 5. **Never include AI attribution in third-party PR commits or bodies**. User owns authorship, Claude is internal tooling.
 6. **Scope cap**: 50 lines changed, 3 files touched. Over that → drop or split. Cold accounts don't ship multi-file refactors.
+7. **Pre-implementation source verify (任一反转 → pause, 不短路)**. GO 后实施任何 candidate 前必跑 3 项 read-only check, **全部跑完, 不在中途短路**, 一并 report 哪一项 (或多项) 反转:
+   1. `gh pr view <N> --repo <org>/<repo> --json state,updatedAt,reviewDecision` — 验 candidate PR/issue 当前 state 与 GO 时 frozen state 一致 (避免 candidate 已被同期 PR 抢 / close / merge)
+   2. `Read` current source file 字面 grep issue body 引用的 phrase / file path / line number — 验 issue 描述的 root cause 真实存在 (避免 reporter 引用 stale dist build snapshot)
+   3. `gh api orgs/<org>/public_members/<user>` — 验 mention-target / reporter identity (HTTP 204 = org member, cold-account NO @-mention; HTTP 404 = external)
+   任一项反转 (candidate state 变 / source citation 不字面命中 / mention-target 是 org member) → **pause + report user 哪一项反转 + 反转前后对比**, 不直接进入 draft / comment / push / @-mention。即使 step 1 反转 (PR 已 close 后续 step 失意义), 仍跑完 step 2+3 一并 report 完整诊断信息 (避免下次同模式漏 catch 的 surface)。
 
 ## Known bounty-paying orgs (as of 2026-04-29)
 

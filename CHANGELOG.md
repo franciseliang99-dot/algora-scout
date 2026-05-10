@@ -1,5 +1,63 @@
 # CHANGELOG
 
+## V0.1.18 — 2026-05-10 — WORKFLOW Hard rule #7 升级 (pre-implementation source verify) + 2 RemoteTrigger watchdog (#15904 5/14 + grundmanise#1+#15637 5/18)
+
+**Trigger**: User GO V0.1.17 commit (0541f7c) 后 "下一步做什么" → Step 0 subagent (general-purpose `a57cdf1134786be55`) audit next-step strategic options → rank top 3 (#1 #15904 watchdog 5/14 + #2 grundmanise#1+#15637 double-stale watchdog 5/18 + #3 Hard rule #7 升级)。User GO 1+2+3 combo。Implementation audit subagent (`ac4df1ac1646794d1`) 5 点全采纳: ① grundmanise watchdog 5/15→5/18 周一避周末 / ② Hard rule #7 加"全部跑完不短路" / ③ 次序 `gh pr view`→`Read`→`gh api` / ④ single commit / ⑤ Hard rule generic 不嵌 PR 号 + trigger payload 不进 git CHANGELOG + grundmanise watchdog 4 decision tree 分支。
+
+**Action taken (3 项)**:
+
+**A. WORKFLOW.md Hard rule #7 新增 "Pre-implementation source verify (任一反转 → pause, 不短路)"**:
+- 插入位置: WORKFLOW.md L126 (现 rule #1-#6 之后)
+- 3 子检查 (按 efficiency 次序): ① `gh pr view <N> --repo <org>/<repo> --json state,updatedAt,reviewDecision` 验 candidate state; ② `Read` current source 字面 grep issue body 引用 phrase / file path / line number; ③ `gh api orgs/<org>/public_members/<u>` 验 mention-target identity (HTTP 204 = org member; HTTP 404 = external)
+- 任一项反转 → pause + report user 哪一项反转 + 反转前后对比, 不直接进入 draft / comment / push / @-mention
+- 即使 step 1 已反转 仍跑完 step 2+3 一并 report (避免下次同模式漏 catch surface)
+- generic 措辞 (不嵌 V0.1.16/V0.1.17 具体 PR 号, precedent 引用 in shipped-log takeaway #20 sub-bullet)
+
+**B. RemoteTrigger `trig_011D6Em98ALX8PrH4LgrRfxq` mastra-pr-15904-watchdog-2026-05-14**:
+- Fire: 2026-05-14T17:00:00Z (Thu 13:00 ET) — 10 days after Francis's 5/4 V0.1.16 neutral bump; 5/9 first manual eval window already silent passed + 5 day grace (hibernate-drift 修正)
+- Action: read-only `gh pr view 15904 --repo mastra-ai/mastra` + comments since 5/4 + reviews → classify 6 outcomes (MERGED / CLOSED-rejected / TylerBarnes-or-maintainer responded / CalebBarnes responded — V0.1.16 反转 Caleb=org-member / Other org-member engaged / 10-day silent hibernate recommend)
+- Hard rules: NO @-mention / NO comment / NO push / NO file edit
+- Source: `franciseliang99-dot/algora-scout` (V0.1.14 precedent pattern, avoid mastra-ai source attach 触发 auto_disabled_repo_access)
+
+**C. RemoteTrigger `trig_01Cei1eMox6mPH8Wmx26V6N1` grundmanise-1-and-15637-double-stale-watchdog-2026-05-18**:
+- Fire: 2026-05-18T17:00:00Z (Mon 13:00 ET) — 20 days after grundmanise#1 4/28 open + 17-day stale threshold + Monday avoid weekend decision delay (subagent 5/15 周五 → 5/18 周一 修正)
+- Action: read-only `gh pr view 1 --repo grundmanise/mastra` + `gh pr view 15637 --repo mastra-ai/mastra` + #15637 comments + reviews → classify 6 outcomes (4 grundmanise#1 状态 + #15637 状态分支): grundmanise#1 MERGED / grundmanise#1 CLOSED no-merge / #15637 MERGED + grundmanise#1 仍 OPEN (forward-port 路径死锁) / #15637 CLOSED no-merge / #15637 有新 commit/review/comment / both still OPEN 20-day stale (hibernate)
+- Hard rules: NO @-mention grundmanise/TylerBarnes/maintainers / NO comment / NO push / NO file edit
+
+**Action taken (algora-scout side, 3 git-tracked files + 2 RemoteTrigger create)**:
+- `WORKFLOW.md`: +9 行 (Hard rule #7 段)
+- `shipped-log.md`: +1 sub-bullet (takeaway #20 末尾加 V0.1.18 升 Hard rule #7 reconcile note + revert path)
+- `CHANGELOG.md`: this entry
+- 不动 evaluation-checklist.md (Hard rule 是 process gate 不是 evaluation R/G flag; takeaway #20 母段已含 cross-ref note)
+- 不动 mastra repo (0 git action; 不切 branch 不 push)
+- 2 RemoteTrigger 已 create (上述 B+C, 都 enabled=true one-time fire)
+
+**Step-0 subagent 审核** (3 round in V0.1.18 cycle, 全采纳):
+- Round 1 (`a88250cf633be7d7c` V0.1.17 scout, carry-forward 沿用)
+- Round 2 (`a57cdf1134786be55`, next-step strategic audit): 3 点 — #15904 watchdog 5/14 schedule / grundmanise+#15637 双 watchdog 5/15 / WORKFLOW.md Hard rule #11 升级
+- Round 3 (`ac4df1ac1646794d1`, V0.1.18 implementation audit): 5 点 — grundmanise watchdog 5/15→5/18 修正 / Hard rule 措辞加"全部跑完不短路" / 次序 gh pr view→Read→gh api / single commit / red lines (generic Hard rule + payload 不进 git + grundmanise 4 分支 decision tree)
+
+**Diff vs V0.1.17**:
+- 3 git file (WORKFLOW +9 / shipped-log +1 sub-bullet / CHANGELOG this entry)
+- 2 RemoteTrigger created (`trig_011D6Em98ALX8PrH4LgrRfxq` + `trig_01Cei1eMox6mPH8Wmx26V6N1`)
+- 0 mastra side changes (本 cycle 不开新 PR, 不动 PR portfolio)
+- 0 evaluation-checklist 改
+
+**Open follow-up state** (delta vs V0.1.17):
+- `mastra-ai/mastra#15904`: state=OPEN 10-day silent (since 5/4 V0.1.16 bump); watchdog 5/14T17:00Z `trig_011D6Em98ALX8PrH4LgrRfxq` fire 后决 hibernate / response handle
+- `grundmanise/mastra#1` + `mastra-ai/mastra#15637`: both 12-day double-stale (since 4/28); watchdog 5/18T17:00Z `trig_01Cei1eMox6mPH8Wmx26V6N1` fire 后决 hibernate / motion handle
+- 其他 PR / takeaway 状态 carry-forward V0.1.17 unchanged
+
+**Why** Hard rule promote 到 WORKFLOW 而非 evaluation-checklist:
+- V0.1.16 Caleb identity 反转不归 R7 范畴 (R7 = no repro/no suggested fix, identity check 是 mention-target axis 独立)
+- V0.1.17 #16383 source citation 反转归 R7 sub-pattern (takeaway #20 已在 shipped-log 记)
+- 两类共置在 WORKFLOW Hard rules (cross-cutting process gate); evaluation-checklist R7 sub-bullet 仅 dist-citation case 适用
+- Hard rule generic 措辞 cover 3 axis (PR state / source citation / mention identity) 一处定义
+
+**Revert path**: `git revert <V0.1.18 sha>` 移 WORKFLOW Hard rule #7 段 + shipped-log 末尾 V0.1.18 sub-bullet + 本 CHANGELOG entry。RemoteTrigger 2 个不 git-tracked, revert 不自动撤; 需 `RemoteTrigger action=update enabled=false trigger_id=trig_011D6Em98ALX8PrH4LgrRfxq` + 同上 `trig_01Cei1eMox6mPH8Wmx26V6N1` 手动 disable。
+
+---
+
 ## V0.1.17 — 2026-05-10 — 第 13 dry scan round (mastra #16383 Path A premise invalidated abort + takeaway #20 issue-body-stale-dist R7 sub-pattern first catch)
 
 **Trigger**: User said "扫描algora" → Step 0 subagent (general-purpose `a88250cf633be7d7c`) audit V0.1.16 后 6 天 dry round 13 strategy — 推荐 V0.1.4-mode mastra unassigned bug pool > Algora 平台 sweep (净新增 = 0 第 5 轮验证); 跳平台 sweep + 不 @ping #15904 hibernate。Algora 平台 ground truth 15 GitHub-issue + 2 PR-level **100% V0.1.7~V0.1.15 已 abort 或 archestra/Cap-go/PX4 整 org poison fall-through** (ZIO #8807 唯一真新但同 R6+R9+0-exp Scala 100-150h fall-through, 净新增可竞争 = 0)。**第 13 dry scan round**。
